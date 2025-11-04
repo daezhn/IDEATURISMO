@@ -6,7 +6,6 @@ import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import type { LucideIcon } from "lucide-react";
 import {
-  BadgeCheck,
   Bus,
   Camera,
   Compass,
@@ -175,7 +174,7 @@ export default function HomePage({
     <div className="min-h-screen bg-[#f6f3ed] text-slate-900">
       <motion.section
         id="que-hacer"
-        className="relative overflow-hidden"
+        className="relative min-h-screen overflow-hidden"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
@@ -193,7 +192,7 @@ export default function HomePage({
         </div>
 
         <motion.div
-          className="relative z-10 mx-auto flex min-h-[92vh] max-w-6xl flex-col px-6 pb-24 pt-6 sm:px-10 lg:px-16"
+          className="relative z-10 mx-auto flex min-h-screen max-w-6xl flex-col px-6 pb-24 pt-6 sm:px-10 lg:px-16"
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.25, 0.8, 0.25, 1] }}
@@ -279,12 +278,8 @@ export default function HomePage({
             ) : null}
           </AnimatePresence>
 
-          <div className="relative mt-8 flex flex-1 flex-col justify-center gap-6 pb-4 sm:mt-10">
-            <motion.div className="max-w-2xl space-y-5 text-white" {...fadeUp(0.1)}>
-              <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.35em] text-emerald-200/80 backdrop-blur-md">
-                <BadgeCheck className="h-4 w-4" />
-                Curado por el equipo IDEA
-              </div>
+          <div className="relative mt-8 grid flex-1 gap-8 pb-4 sm:mt-10 lg:grid-cols-[1.05fr_1.95fr]">
+            <motion.div className="flex flex-col justify-center space-y-5 text-white" {...fadeUp(0.1)}>
               <h1 className="text-3xl font-semibold leading-tight sm:text-4xl lg:text-[42px]">
                 ¿Qué hacer en Delicias?
               </h1>
@@ -294,14 +289,11 @@ export default function HomePage({
               </p>
             </motion.div>
 
-            <motion.div
-              className="mx-auto flex w-full max-w-[520px] flex-col gap-1.5"
-              {...fadeUp(0.25)}
-            >
+            <motion.div className="grid w-full gap-4 sm:grid-cols-2 xl:grid-cols-3" {...fadeUp(0.25)}>
               {heroAttractions.map((attraction, index) => (
                 <motion.div
                   key={attraction.title}
-                  className="group relative h-[4.6rem] overflow-hidden rounded-3xl border border-white/20 bg-white/10 backdrop-blur-md shadow-lg transition-transform duration-500 ease-out transform-gpu hover:shadow-2xl"
+                  className="group relative min-h-[7.5rem] overflow-hidden rounded-3xl border border-white/20 bg-white/10 backdrop-blur-md shadow-lg transition-transform duration-500 ease-out transform-gpu hover:shadow-2xl"
                   {...fadeUp(0.3 + index * 0.02)}
                   whileHover={{ scaleX: 1.07 }}
                 >
@@ -309,19 +301,19 @@ export default function HomePage({
                     src={attraction.image}
                     alt={attraction.title}
                     fill
-                    sizes="(max-width: 768px) 100vw, 520px"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 360px"
                     className="object-cover opacity-90 transition-transform duration-700 group-hover:scale-[1.15]"
                   />
                   <div className="absolute inset-0 bg-gradient-to-r from-[#0f172a]/80 via-[#0f172a]/30 to-transparent transition-opacity duration-500 group-hover:from-[#0f172a]/95 group-hover:via-[#0f172a]/45" />
-                  <div className="relative flex h-full flex-col justify-between px-4 py-3 text-white">
-                    <span className="inline-flex w-fit items-center rounded-full bg-white/15 px-3 py-[4px] text-[9px] font-semibold uppercase tracking-[0.35em] text-emerald-100 transition-colors duration-500 group-hover:bg-white/25 group-hover:text-emerald-50">
+                  <div className="relative flex h-full flex-col justify-between px-5 py-4 text-white">
+                    <span className="inline-flex w-fit items-center rounded-full bg-white/15 px-3 py-[5px] text-[10px] font-semibold uppercase tracking-[0.35em] text-emerald-100 transition-colors duration-500 group-hover:bg-white/25 group-hover:text-emerald-50">
                       {attraction.tag}
                     </span>
                     <div className="space-y-1">
-                      <h3 className="text-sm font-semibold leading-snug sm:text-[15px]">
+                      <h3 className="text-base font-semibold leading-snug sm:text-lg">
                         {attraction.title}
                       </h3>
-                      <p className="text-[11px] text-white/80 sm:text-xs">{attraction.subtitle}</p>
+                      <p className="text-xs text-white/80 sm:text-sm">{attraction.subtitle}</p>
                     </div>
                   </div>
                 </motion.div>

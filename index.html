@@ -15,8 +15,8 @@
             <h2 data-i18n="welcome">Bienvenido / Welcome</h2>
             <p data-i18n="selectLanguage">Selecciona tu idioma / Select your language</p>
             <div class="language-buttons">
-                <button class="btn btn-language" onclick="setLanguage('es')">🇲🇽 Español</button>
-                <button class="btn btn-language" onclick="setLanguage('en')">🇺🇸 English</button>
+                <button class="btn btn-language" id="btnSpanish">🇲🇽 Español</button>
+                <button class="btn btn-language" id="btnEnglish">🇺🇸 English</button>
             </div>
         </div>
     </div>
@@ -34,8 +34,8 @@
                         <span id="currentLang">ES</span> 🌐
                     </button>
                     <div class="language-dropdown" id="languageDropdown">
-                        <a href="#" onclick="setLanguage('es')">🇲🇽 Español</a>
-                        <a href="#" onclick="setLanguage('en')">🇺🇸 English</a>
+                        <a href="#" id="navLangEs">🇲🇽 Español</a>
+                        <a href="#" id="navLangEn">🇺🇸 English</a>
                     </div>
                 </div>
                 <button class="nav-toggle" id="navToggle">
@@ -89,9 +89,9 @@
         <button class="hero-nav hero-prev" onclick="changeSlide(-1)">‹</button>
         <button class="hero-nav hero-next" onclick="changeSlide(1)">›</button>
         <div class="hero-dots">
-            <span class="dot active" onclick="currentSlide(0)"></span>
-            <span class="dot" onclick="currentSlide(1)"></span>
-            <span class="dot" onclick="currentSlide(2)"></span>
+            <span class="dot active" onclick="goToSlide(0)"></span>
+            <span class="dot" onclick="goToSlide(1)"></span>
+            <span class="dot" onclick="goToSlide(2)"></span>
         </div>
     </section>
 

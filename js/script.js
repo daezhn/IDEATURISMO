@@ -7,6 +7,17 @@ let filteredTours = [...toursData];
 
 // Initialize the website
 document.addEventListener('DOMContentLoaded', function() {
+    // Setup language button listeners
+    const btnSpanish = document.getElementById('btnSpanish');
+    const btnEnglish = document.getElementById('btnEnglish');
+    const navLangEs = document.getElementById('navLangEs');
+    const navLangEn = document.getElementById('navLangEn');
+    
+    if (btnSpanish) btnSpanish.addEventListener('click', () => setLanguage('es'));
+    if (btnEnglish) btnEnglish.addEventListener('click', () => setLanguage('en'));
+    if (navLangEs) navLangEs.addEventListener('click', (e) => { e.preventDefault(); setLanguage('es'); });
+    if (navLangEn) navLangEn.addEventListener('click', (e) => { e.preventDefault(); setLanguage('en'); });
+    
     // Check if language is already set
     if (!currentLanguage) {
         showLanguageModal();
@@ -152,7 +163,7 @@ function changeSlide(direction) {
     dots[currentSlide].classList.add('active');
 }
 
-function currentSlide(index) {
+function goToSlide(index) {
     const slides = document.querySelectorAll('.hero-slide');
     const dots = document.querySelectorAll('.dot');
     

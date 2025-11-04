@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="IDEA - Instituto de Desarrollo Económico y Agropecuario de Delicias, Chihuahua. Descubre el turismo en nuestra región.">
+    <meta name="keywords" content="turismo, Delicias, Chihuahua, IDEA, desarrollo económico, agropecuario, tours">
+    <title>IDEA Turismo - Delicias, Chihuahua</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Language Selector Overlay (shown on first visit) -->
+    <div id="languageModal" class="language-modal">
+        <div class="language-modal-content">
+            <h2 data-i18n="welcome">Bienvenido / Welcome</h2>
+            <p data-i18n="selectLanguage">Selecciona tu idioma / Select your language</p>
+            <div class="language-buttons">
+                <button class="btn btn-language" onclick="setLanguage('es')">🇲🇽 Español</button>
+                <button class="btn btn-language" onclick="setLanguage('en')">🇺🇸 English</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navegación -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <h1>IDEA</h1>
+                <p class="nav-subtitle" data-i18n="institute">Instituto de Desarrollo Económico y Agropecuario</p>
+            </div>
+            <div class="nav-right">
+                <div class="language-selector">
+                    <button class="language-toggle" id="languageToggle">
+                        <span id="currentLang">ES</span> 🌐
+                    </button>
+                    <div class="language-dropdown" id="languageDropdown">
+                        <a href="#" onclick="setLanguage('es')">🇲🇽 Español</a>
+                        <a href="#" onclick="setLanguage('en')">🇺🇸 English</a>
+                    </div>
+                </div>
+                <button class="nav-toggle" id="navToggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#inicio" data-i18n="nav-home">Inicio</a></li>
+                <li><a href="#tours" data-i18n="nav-tours">Tours</a></li>
+                <li><a href="#planifica" data-i18n="nav-plan">Planifica tu Visita</a></li>
+                <li><a href="#nosotros" data-i18n="nav-about">Nosotros</a></li>
+                <li><a href="#faq" data-i18n="nav-faq">FAQ</a></li>
+                <li><a href="#contacto" data-i18n="nav-contact">Contacto</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="hero">
+        <div class="hero-slider">
+            <div class="hero-slide active">
+                <div class="hero-overlay">
+                    <div class="hero-content">
+                        <h1 class="hero-title" data-i18n="hero-title1">Bienvenido a Delicias, Chihuahua</h1>
+                        <p class="hero-subtitle" data-i18n="hero-subtitle1">Descubre las maravillas de nuestra ciudad</p>
+                        <a href="#tours" class="btn btn-primary" data-i18n="hero-cta">Explorar Tours</a>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-slide">
+                <div class="hero-overlay">
+                    <div class="hero-content">
+                        <h1 class="hero-title" data-i18n="hero-title2">Experiencias Únicas te Esperan</h1>
+                        <p class="hero-subtitle" data-i18n="hero-subtitle2">Tours históricos, gastronómicos y culturales</p>
+                        <a href="#tours" class="btn btn-primary" data-i18n="hero-cta">Explorar Tours</a>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-slide">
+                <div class="hero-overlay">
+                    <div class="hero-content">
+                        <h1 class="hero-title" data-i18n="hero-title3">Conecta con la Naturaleza</h1>
+                        <p class="hero-subtitle" data-i18n="hero-subtitle3">Descubre paisajes naturales inolvidables</p>
+                        <a href="#tours" class="btn btn-primary" data-i18n="hero-cta">Explorar Tours</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button class="hero-nav hero-prev" onclick="changeSlide(-1)">‹</button>
+        <button class="hero-nav hero-next" onclick="changeSlide(1)">›</button>
+        <div class="hero-dots">
+            <span class="dot active" onclick="currentSlide(0)"></span>
+            <span class="dot" onclick="currentSlide(1)"></span>
+            <span class="dot" onclick="currentSlide(2)"></span>
+        </div>
+    </section>
+
+    <!-- Tours Section -->
+    <section id="tours" class="tours-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 data-i18n="tours-title">Explora Nuestros Tours</h2>
+                <div class="section-line"></div>
+                <p class="section-subtitle" data-i18n="tours-subtitle">Descubre experiencias únicas en Delicias</p>
+            </div>
+
+            <!-- Search and Filter Bar -->
+            <div class="tours-controls">
+                <div class="search-bar">
+                    <input type="text" id="tourSearch" placeholder="Buscar tours..." data-i18n-placeholder="search-placeholder">
+                    <button class="btn-search" onclick="searchTours()">🔍</button>
+                </div>
+                <div class="filter-controls">
+                    <select id="categoryFilter" onchange="filterTours()">
+                        <option value="all" data-i18n="filter-all">Todas las categorías</option>
+                        <option value="historico" data-i18n="filter-historical">Históricos</option>
+                        <option value="gastronomico" data-i18n="filter-gastronomic">Gastronómicos</option>
+                        <option value="cultural" data-i18n="filter-cultural">Culturales</option>
+                        <option value="natural" data-i18n="filter-natural">Naturales</option>
+                        <option value="aventura" data-i18n="filter-adventure">Aventura</option>
+                    </select>
+                    <select id="durationFilter" onchange="filterTours()">
+                        <option value="all" data-i18n="filter-duration-all">Todas las duraciones</option>
+                        <option value="short" data-i18n="filter-duration-short">Menos de 3 horas</option>
+                        <option value="medium" data-i18n="filter-duration-medium">3-6 horas</option>
+                        <option value="long" data-i18n="filter-duration-long">Más de 6 horas</option>
+                    </select>
+                    <select id="priceFilter" onchange="filterTours()">
+                        <option value="all" data-i18n="filter-price-all">Todos los precios</option>
+                        <option value="free" data-i18n="filter-price-free">Gratis</option>
+                        <option value="low" data-i18n="filter-price-low">$0-$200</option>
+                        <option value="medium" data-i18n="filter-price-medium">$200-$500</option>
+                        <option value="high" data-i18n="filter-price-high">$500+</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Tours Grid -->
+            <div id="toursGrid" class="tours-grid">
+                <!-- Tours will be dynamically loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Tour Detail Modal -->
+    <div id="tourModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeTourModal()">&times;</span>
+            <div id="tourDetailContent">
+                <!-- Tour details will be loaded here dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Planifica tu Visita -->
+    <section id="planifica" class="planning">
+        <div class="container">
+            <div class="section-header">
+                <h2 data-i18n="plan-title">Planifica tu Visita</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="planning-content">
+                <div class="calendar-section">
+                    <h3 data-i18n="plan-calendar">Calendario de Disponibilidad</h3>
+                    <div id="availabilityCalendar" class="calendar">
+                        <!-- Calendar will be rendered here -->
+                    </div>
+                </div>
+                <div class="promotions-section">
+                    <h3 data-i18n="plan-promotions">Promociones Especiales</h3>
+                    <div class="promotions-list" id="promotionsList">
+                        <div class="promotion-card">
+                            <div class="promotion-badge" data-i18n="promo-badge">OFERTA</div>
+                            <h4 data-i18n="promo1-title">Tour Histórico + Gastronómico</h4>
+                            <p class="promo-price"><span class="old-price">$500</span> <span class="new-price">$350</span></p>
+                            <p data-i18n="promo1-desc">Combina dos experiencias en un solo día</p>
+                            <p class="promo-validity" data-i18n="promo1-valid">Válido hasta fin de mes</p>
+                        </div>
+                        <div class="promotion-card">
+                            <div class="promotion-badge" data-i18n="promo-badge">OFERTA</div>
+                            <h4 data-i18n="promo2-title">Tour Familiar</h4>
+                            <p class="promo-price"><span class="new-price">Gratis niños menores de 12</span></p>
+                            <p data-i18n="promo2-desc">Tours naturales perfectos para toda la familia</p>
+                            <p class="promo-validity" data-i18n="promo2-valid">Todo el año</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sobre Nosotros -->
+    <section id="nosotros" class="about">
+        <div class="container">
+            <div class="section-header">
+                <h2 data-i18n="about-title">Sobre Nosotros</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="about-content">
+                <div class="about-text">
+                    <h3 data-i18n="about-institute">Instituto de Desarrollo Económico y Agropecuario</h3>
+                    <p data-i18n="about-desc1">El IDEA es una dependencia del municipio de Delicias, Chihuahua, dedicada a impulsar el desarrollo económico, agropecuario y turístico de nuestra región.</p>
+                    <p data-i18n="about-desc2">Trabajamos para promover las bellezas naturales, la riqueza cultural y las oportunidades de desarrollo que ofrece nuestro municipio, conectando a visitantes con experiencias auténticas y memorables.</p>
+                    <div class="about-features">
+                        <div class="feature">
+                            <div class="feature-icon">🌾</div>
+                            <h4 data-i18n="feature1-title">Desarrollo Agropecuario</h4>
+                            <p data-i18n="feature1-desc">Impulsamos el sector agrícola y ganadero local</p>
+                        </div>
+                        <div class="feature">
+                            <div class="feature-icon">💼</div>
+                            <h4 data-i18n="feature2-title">Desarrollo Económico</h4>
+                            <p data-i18n="feature2-desc">Fomentamos la economía y el emprendimiento</p>
+                        </div>
+                        <div class="feature">
+                            <div class="feature-icon">🏞️</div>
+                            <h4 data-i18n="feature3-title">Turismo Regional</h4>
+                            <p data-i18n="feature3-desc">Promovemos los atractivos turísticos de la región</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="faq-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 data-i18n="faq-title">Preguntas Frecuentes</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <span data-i18n="faq1-q">¿Cómo puedo reservar un tour?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p data-i18n="faq1-a">Puedes contactarnos directamente a través de nuestro formulario de contacto o visitando nuestras oficinas. El personal de IDEA te ayudará con toda la información y disponibilidad.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <span data-i18n="faq2-q">¿Los tours incluyen transporte?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p data-i18n="faq2-a">Depende del tour específico. Algunos incluyen transporte mientras que otros son tours a pie. Revisa los detalles de cada tour para información específica.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <span data-i18n="faq3-q">¿Hay tours en inglés?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p data-i18n="faq3-a">Sí, ofrecemos tours en español e inglés. Por favor, especifica tu preferencia al hacer la reserva.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <span data-i18n="faq4-q">¿Cuál es la política de cancelación?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p data-i18n="faq4-a">Puedes cancelar con 24 horas de anticipación. Contacta directamente con nosotros para cualquier cambio en tu reserva.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <span data-i18n="faq5-q">¿Los tours son accesibles para personas con discapacidad?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p data-i18n="faq5-a">Varios de nuestros tours son accesibles. Por favor, contáctanos con anticipación para asegurarnos de que podemos acomodar tus necesidades específicas.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contacto -->
+    <section id="contacto" class="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2 data-i18n="contact-title">Contacto</h2>
+                <div class="section-line"></div>
+                <p class="section-subtitle" data-i18n="contact-subtitle">Estamos aquí para ayudarte</p>
+            </div>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="info-item">
+                        <div class="info-icon">📍</div>
+                        <div class="info-text">
+                            <h4 data-i18n="contact-location">Ubicación</h4>
+                            <p>Delicias, Chihuahua, México</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-icon">📞</div>
+                        <div class="info-text">
+                            <h4 data-i18n="contact-phone">Teléfono</h4>
+                            <p data-i18n="contact-phone-text">Contáctanos para más información</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-icon">✉️</div>
+                        <div class="info-text">
+                            <h4 data-i18n="contact-email">Correo Electrónico</h4>
+                            <p data-i18n="contact-email-text">Escríbenos tus consultas</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-icon">🕐</div>
+                        <div class="info-text">
+                            <h4 data-i18n="contact-hours">Horario</h4>
+                            <p data-i18n="contact-hours-text">Lunes a Viernes: 9:00 AM - 5:00 PM</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <h3 data-i18n="contact-form-title">Envíanos un mensaje</h3>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name" data-i18n="form-name">Nombre completo</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email" data-i18n="form-email">Correo electrónico</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject" data-i18n="form-subject">Asunto</label>
+                            <input type="text" id="subject" name="subject" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message" data-i18n="form-message">Mensaje</label>
+                            <textarea id="message" name="message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" data-i18n="form-submit">Enviar Mensaje</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>IDEA</h3>
+                    <p data-i18n="footer-institute">Instituto de Desarrollo Económico y Agropecuario</p>
+                    <p>Delicias, Chihuahua</p>
+                </div>
+                <div class="footer-section">
+                    <h4 data-i18n="footer-links">Enlaces Rápidos</h4>
+                    <ul>
+                        <li><a href="#inicio" data-i18n="nav-home">Inicio</a></li>
+                        <li><a href="#tours" data-i18n="nav-tours">Tours</a></li>
+                        <li><a href="#planifica" data-i18n="nav-plan">Planifica tu Visita</a></li>
+                        <li><a href="#nosotros" data-i18n="nav-about">Nosotros</a></li>
+                        <li><a href="#faq" data-i18n="nav-faq">FAQ</a></li>
+                        <li><a href="#contacto" data-i18n="nav-contact">Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 data-i18n="footer-social">Síguenos</h4>
+                    <div class="social-links">
+                        <a href="#" class="social-link">Facebook</a>
+                        <a href="#" class="social-link">Twitter</a>
+                        <a href="#" class="social-link">Instagram</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 IDEA - <span data-i18n="footer-institute">Instituto de Desarrollo Económico y Agropecuario</span>. <span data-i18n="footer-rights">Todos los derechos reservados</span>.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/translations.js"></script>
+    <script src="js/tours-data.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>

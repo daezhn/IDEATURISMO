@@ -1,156 +1,49 @@
-# IDEA Turismo - Delicias, Chihuahua
+## IDEA Turismo · Delicias, Chihuahua
 
-Plataforma web informativa de tours para el Instituto de Desarrollo Económico y Agropecuario (IDEA) de Delicias, Chihuahua.
+Frontend de la nueva plataforma turística del Instituto de Desarrollo Económico y Agropecuario (IDEA) de Delicias. La experiencia se inspira en el estilo editorial de [discoverlosangeles.com](https://www.discoverlosangeles.com/) e incorpora secciones personalizadas para el destino chihuahuense.
 
-## Descripción
+### Características principales
+- **Hero inmersivo** con búsqueda rápida, chips temáticos y CTA para planificar el viaje.
+- **Experiencias curadas** con tarjetas dinámicas y enlaces a itinerarios.
+- **Agenda de eventos** con carrusel de tarjetas que destacan categoría, fecha y ubicación.
+- **Barrios y zonas clave**, planificador con recomendaciones oficiales y un bloque teaser para el mapa interactivo.
+- **Formulario de newsletter/contacto** y pie institucional alineado con la identidad del municipio.
 
-Este sitio web presenta los tours y atractivos turísticos de Delicias, Chihuahua, permitiendo a los visitantes explorar y conocer las opciones disponibles de manera fácil e intuitiva.
+### Stack técnico
+- [Next.js 14 (App Router)](https://nextjs.org/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [framer-motion](https://www.framer.com/motion/) para animaciones fluidas en cliente
+- [lucide-react](https://lucide.dev/) para iconografía
 
-## Características
+### Scripts disponibles
 
-### 🌐 Multilingüe
-- Soporte para Español e Inglés
-- Cambio de idioma dinámico
-- Preferencia de idioma guardada localmente
-
-### 🎯 Sistema de Tours
-- 8 tours diversos en múltiples categorías:
-  - Históricos
-  - Gastronómicos
-  - Culturales
-  - Naturales
-  - Aventura
-- Filtrado avanzado por categoría, duración y precio
-- Búsqueda por palabra clave
-- Detalles completos de cada tour con:
-  - Itinerario detallado
-  - Horarios y precios
-  - Calificaciones y testimonios
-  - Información de inclusiones
-
-### 📱 Diseño Responsivo
-- Optimizado para dispositivos móviles, tabletas y escritorio
-- Interfaz amigable e intuitiva
-- Navegación fluida
-
-### ✨ Componentes Interactivos
-- Carrusel de imágenes en la página principal
-- Modales de detalle de tours
-- Acordeón de preguntas frecuentes
-- Formulario de contacto
-- Calendario de disponibilidad
-- Sección de promociones especiales
-
-## Estructura del Proyecto
-
-```
-IDEATURISMO/
-├── index.html              # Página principal
-├── css/
-│   └── styles.css         # Estilos CSS
-├── js/
-│   ├── script.js          # Funcionalidad principal
-│   ├── translations.js    # Traducciones ES/EN
-│   └── tours-data.js      # Base de datos de tours
-├── images/                # Imágenes (agregar según necesidad)
-└── data/                  # Datos adicionales
-```
-
-## Cómo Usar
-
-### Desarrollo Local
-
-1. Clonar el repositorio:
 ```bash
-git clone https://github.com/daezhn/IDEATURISMO.git
-cd IDEATURISMO
+npm run dev    # levanta el servidor en http://localhost:3000
+npm run build  # genera la versión listada para producción
+npm run start  # ejecuta la build en modo producción
+npm run lint   # corre ESLint sobre el proyecto
 ```
 
-2. Abrir con un servidor HTTP local:
-```bash
-# Opción 1: Python
-python3 -m http.server 8080
+### Estructura relevante
 
-# Opción 2: Node.js
-npx http-server -p 8080
+- `src/app/page.tsx`: Landing principal con todas las secciones y datos mock.
+- `src/app/layout.tsx`: Metadatos globales y setup de fuentes.
+- `src/app/globals.css`: Tokens globales, tipografías y ajustes base.
+- `public/`: Espacio para futuros assets locales (logos, fotos oficiales, etc.).
 
-# Opción 3: PHP
-php -S localhost:8080
-```
+### Próximos pasos sugeridos
+1. Reemplazar imágenes de Unsplash por fotografías oficiales y configurar dominios adicionales en `next.config.ts`.
+2. Conectar el formulario de newsletter al CRM/correo institucional.
+3. Sustituir contenido estático por datos provenientes de un CMS o API municipal.
+4. Implementar el mapa interactivo planeado (Leaflet/Mapbox + datos GeoJSON).
 
-3. Abrir en el navegador: `http://localhost:8080`
+### Despliegue en Vercel
+1. Asegúrate de tener una cuenta en [Vercel](https://vercel.com/).
+2. Importa este repositorio y deja “Framework Preset: **Next.js**”.
+3. Variables de entorno: no se requieren por ahora.
+4. Continuos deploys: cada push a `main` (o la rama configurada) disparará un nuevo build.
 
-### Despliegue
+---
 
-El sitio es 100% estático y puede desplegarse en:
-- GitHub Pages
-- Netlify
-- Vercel
-- Cualquier servidor web estático
-
-## Personalización
-
-### Agregar Nuevos Tours
-
-Editar el archivo `js/tours-data.js` y agregar nuevos objetos al array `toursData`:
-
-```javascript
-{
-    id: 9,
-    title: {
-        es: "Nombre del Tour",
-        en: "Tour Name"
-    },
-    category: "categoria",
-    description: {
-        es: "Descripción en español",
-        en: "Description in English"
-    },
-    duration: 180, // minutos
-    price: 250,
-    rating: 4.8,
-    reviews: 50,
-    // ... más campos
-}
-```
-
-### Modificar Traducciones
-
-Editar el archivo `js/translations.js` para agregar o modificar traducciones.
-
-### Cambiar Estilos
-
-Editar el archivo `css/styles.css`. Las variables CSS principales están definidas en `:root`:
-
-```css
-:root {
-    --primary-color: #2c5f2d;
-    --secondary-color: #97bc62;
-    --accent-color: #f39c12;
-    /* ... más variables */
-}
-```
-
-## Tecnologías Utilizadas
-
-- HTML5
-- CSS3 (Variables CSS, Flexbox, Grid)
-- JavaScript Vanilla (ES6+)
-- Sin dependencias externas
-
-## Navegadores Soportados
-
-- Chrome/Edge (últimas 2 versiones)
-- Firefox (últimas 2 versiones)
-- Safari (últimas 2 versiones)
-- Opera (últimas 2 versiones)
-
-## Contacto
-
-Para más información sobre el IDEA:
-- Ubicación: Delicias, Chihuahua, México
-- Instituto de Desarrollo Económico y Agropecuario
-
-## Licencia
-
-© 2024 IDEA - Instituto de Desarrollo Económico y Agropecuario. Todos los derechos reservados.
+¿Dudas o ideas adicionales? Escríbelas en los issues del repo o contacta al equipo de IDEA Turismo para priorizarlas.

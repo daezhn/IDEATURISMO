@@ -7,7 +7,6 @@ import type { LucideIcon } from "lucide-react";
 import {
   BadgeCheck,
   Bus,
-  CalendarDays,
   Camera,
   Compass,
   Hotel,
@@ -17,18 +16,16 @@ import {
   Mountain,
   Music,
   Plane,
-  Send,
-  Sparkles,
   Sun,
   UtensilsCrossed,
-  Waves,
   ShieldCheck,
 } from "lucide-react";
 
-type HeroHighlight = {
+type HeroAttraction = {
   title: string;
-  description: string;
-  icon: LucideIcon;
+  subtitle: string;
+  tag: string;
+  image: string;
 };
 
 type HotelOption = {
@@ -98,39 +95,115 @@ const fadeUp = (delay = 0) => ({
   viewport: { once: true, amount: 0.3 },
 });
 
-const heroHighlights: HeroHighlight[] = [
+const heroAttractions: HeroAttraction[] = [
   {
-    title: "Arte urbano vibrante",
-    description:
-      "Murales y galerías a cielo abierto celebran la identidad del desierto.",
-    icon: Sparkles,
+    title: "Teatro de la Ciudad Manuel Talavera Trejo",
+    subtitle: "Agenda cultural semanal - Centro de Delicias",
+    tag: "Artes escenicas",
+    image:
+      "https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=1600&q=80",
   },
   {
-    title: "Sabores con nuez",
-    description:
-      "Chefs locales reinterpretan la nuez pecanera con platillos de autor.",
-    icon: UtensilsCrossed,
+    title: "Museo de Sitio Huella de Nuestros Pasos",
+    subtitle: "Colecciones arqueologicas y memoria regional",
+    tag: "Museo",
+    image:
+      "https://images.unsplash.com/photo-1529429617124-aee00701f126?auto=format&fit=crop&w=1600&q=80",
   },
   {
-    title: "Amaneceres junto al agua",
-    description:
-      "Presa Las Vírgenes y balnearios naturales para desconectarte del ruido.",
-    icon: Waves,
+    title: "MUDECH - Museo del Desierto Chihuahuense",
+    subtitle: "Fauna, flora y experiencias inmersivas del semidesierto",
+    tag: "Naturaleza",
+    image:
+      "https://images.unsplash.com/photo-1526498460520-4c246339dccb?auto=format&fit=crop&w=1600&q=80",
   },
   {
-    title: "Rutas de aventura",
-    description:
-      "Off road, glamping y senderos para conquistar el paisaje chihuahuense.",
-    icon: Mountain,
+    title: "Museo de Paleontologia",
+    subtitle: "Vestigios fosiles y laboratorio interactivo",
+    tag: "Historia",
+    image:
+      "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1600&q=80",
+  },
+  {
+    title: "Ciudad Infantil",
+    subtitle: "Parque tematico y experiencias al aire libre para familias",
+    tag: "Familiar",
+    image:
+      "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1600&q=80",
+  },
+  {
+    title: "Museo de Derechos Humanos (DENI)",
+    subtitle: "Recorridos guiados y experiencias educativas",
+    tag: "Civismo",
+    image:
+      "https://images.unsplash.com/photo-1596560548467-3fede27db7bb?auto=format&fit=crop&w=1600&q=80",
+  },
+  {
+    title: "Parque Fundadores",
+    subtitle: "Senderos, ciclovia y zonas de picnic entre nogales",
+    tag: "Parques",
+    image:
+      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=80",
+  },
+  {
+    title: "Mercado Juarez",
+    subtitle: "Antojitos, artesanias y productos locales",
+    tag: "Sabores",
+    image:
+      "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=1600&q=80",
+  },
+  {
+    title: "Trolebus El Encanto",
+    subtitle: "Recorridos historicos y fotografia urbana",
+    tag: "Tours",
+    image:
+      "https://images.unsplash.com/photo-1528909514045-2fa4ac7a08ba?auto=format&fit=crop&w=1600&q=80",
+  },
+  {
+    title: "Gran Estadio Delicias",
+    subtitle: "Deportes, conciertos y eventos masivos",
+    tag: "Entretenimiento",
+    image:
+      "https://images.unsplash.com/photo-1522778119026-d647f0596c20?auto=format&fit=crop&w=1600&q=80",
+  },
+  {
+    title: "Plaza Benito Juarez",
+    subtitle: "Ferias, expos y actividades al aire libre",
+    tag: "Centro",
+    image:
+      "https://images.unsplash.com/photo-1520256862855-398228c41684?auto=format&fit=crop&w=1600&q=80",
+  },
+  {
+    title: "El Colibri - Presa Rosetilla",
+    subtitle: "Miradores, deportes acuaticos y gastronomia en la ribera",
+    tag: "Escapada",
+    image:
+      "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80",
+  },
+  {
+    title: "Cavall 7 Vinedos",
+    subtitle: "Enoturismo, catas guiadas y experiencias gastronomicas",
+    tag: "Vinedos",
+    image:
+      "https://images.unsplash.com/photo-1517170650633-c4f66e06dfd2?auto=format&fit=crop&w=1600&q=80",
+  },
+  {
+    title: "Presa Francisco I. Madero",
+    subtitle: "Paisajes iconicos y actividades nauticas",
+    tag: "Aventura",
+    image:
+      "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1600&q=80",
+  },
+  {
+    title: "Aguas Termales Julimes",
+    subtitle: "Relax natural en el corredor del desierto",
+    tag: "Bienestar",
+    image:
+      "https://images.unsplash.com/photo-1519861531473-9200262188bf?auto=format&fit=crop&w=1600&q=80",
   },
 ];
 
-const journeyChips = [
-  "Murales fotogénicos",
-  "Experiencias gourmet",
-  "Escapadas junto al agua",
-  "Aventura off road",
-];
+
 
 const hotels: HotelOption[] = [
   {
@@ -513,67 +586,47 @@ export default function Home() {
               </p>
             </motion.div>
 
-            <motion.form
-              className="flex w-full flex-col gap-4 rounded-3xl bg-white/10 p-5 backdrop-blur-md sm:flex-row sm:items-center"
-              {...fadeUp(0.2)}
-            >
-              <div className="flex flex-1 items-center gap-3 rounded-2xl bg-white/10 px-4 py-3 shadow-lg shadow-purple-500/10">
-                <MapPin className="h-5 w-5 text-emerald-200" />
-                <input
-                  type="text"
-                  placeholder="Buscar tours, experiencias o barrios"
-                  className="w-full bg-transparent text-sm text-white placeholder:text-white/60 focus:outline-none"
-                />
-              </div>
-              <div className="flex items-center gap-3 rounded-2xl bg-white/10 px-4 py-3 shadow-lg shadow-purple-500/10 sm:w-48">
-                <CalendarDays className="h-5 w-5 text-emerald-200" />
-                <input
-                  type="text"
-                  placeholder="Mes o fecha"
-                  className="w-full bg-transparent text-sm text-white placeholder:text-white/60 focus:outline-none"
-                />
-              </div>
-              <button
-                type="submit"
-                className="flex items-center justify-center gap-2 rounded-2xl bg-emerald-400 px-6 py-3 text-sm font-semibold text-slate-900 transition hover:bg-emerald-300"
-              >
-                <Send className="h-4 w-4" />
-                Explorar ideas
-              </button>
-            </motion.form>
-
-            <div className="grid gap-6 lg:grid-cols-2">
-              {heroHighlights.map((highlight, index) => (
-                <motion.div
-                  key={highlight.title}
-                  className="flex gap-4 rounded-3xl bg-white/10 p-5 text-white backdrop-blur-md transition hover:bg-white/15"
-                  {...fadeUp(0.25 + index * 0.08)}
-                >
-                  <div className="mt-1 flex h-12 w-12 items-center justify-center rounded-full bg-white/20">
-                    <highlight.icon className="h-6 w-6 text-emerald-200" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold">{highlight.title}</h3>
-                    <p className="text-sm text-white/75">
-                      {highlight.description}
-                    </p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-
             <motion.div
-              className="flex flex-wrap gap-2"
-              {...fadeUp(0.3)}
+              className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+              {...fadeUp(0.25)}
             >
-              {journeyChips.map((chip) => (
-                <span
-                  key={chip}
-                  className="rounded-full border border-white/30 bg-white/10 px-4 py-1 text-xs font-medium uppercase tracking-[0.25em] text-white/70"
-                >
-                  {chip}
-                </span>
-              ))}
+              {heroAttractions.map((attraction, index) => {
+                const emphasis =
+                  index === 0
+                    ? "sm:col-span-2 lg:col-span-2 lg:row-span-2 min-h-[18rem]"
+                    : index % 5 === 0
+                    ? "lg:row-span-2 min-h-[16rem]"
+                    : "min-h-[14rem]";
+
+                return (
+                  <motion.div
+                    key={attraction.title}
+                    className={`group relative overflow-hidden rounded-3xl border border-white/15 bg-white/10 backdrop-blur-md shadow-lg transition hover:-translate-y-1 hover:shadow-2xl ${emphasis}`}
+                    {...fadeUp(0.3 + index * 0.02)}
+                  >
+                    <Image
+                      src={attraction.image}
+                      alt={attraction.title}
+                      fill
+                      className="object-cover opacity-85 transition duration-700 group-hover:scale-105 group-hover:opacity-100"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0f172a]/85 via-[#0f172a]/35 to-transparent" />
+                    <div className="relative flex h-full flex-col justify-between p-5 text-white">
+                      <span className="inline-flex w-fit items-center rounded-full bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-emerald-100">
+                        {attraction.tag}
+                      </span>
+                      <div className="space-y-2">
+                        <h3 className="text-lg font-semibold leading-snug">
+                          {attraction.title}
+                        </h3>
+                        <p className="text-sm text-white/80">
+                          {attraction.subtitle}
+                        </p>
+                      </div>
+                    </div>
+                  </motion.div>
+                );
+              })}
             </motion.div>
           </div>
 

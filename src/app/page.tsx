@@ -104,13 +104,6 @@ const heroAttractions: HeroAttraction[] = [
       "https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=1600&q=80",
   },
   {
-    title: "Museo de Sitio Huella de Nuestros Pasos",
-    subtitle: "Colecciones arqueologicas y memoria regional",
-    tag: "Museo",
-    image:
-      "https://images.unsplash.com/photo-1529429617124-aee00701f126?auto=format&fit=crop&w=1600&q=80",
-  },
-  {
     title: "MUDECH - Museo del Desierto Chihuahuense",
     subtitle: "Fauna, flora y experiencias inmersivas del semidesierto",
     tag: "Naturaleza",
@@ -132,13 +125,6 @@ const heroAttractions: HeroAttraction[] = [
       "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1600&q=80",
   },
   {
-    title: "Museo de Derechos Humanos (DENI)",
-    subtitle: "Recorridos guiados y experiencias educativas",
-    tag: "Civismo",
-    image:
-      "https://images.unsplash.com/photo-1596560548467-3fede27db7bb?auto=format&fit=crop&w=1600&q=80",
-  },
-  {
     title: "Parque Fundadores",
     subtitle: "Senderos, ciclovia y zonas de picnic entre nogales",
     tag: "Parques",
@@ -146,60 +132,11 @@ const heroAttractions: HeroAttraction[] = [
       "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=80",
   },
   {
-    title: "Mercado Juarez",
-    subtitle: "Antojitos, artesanias y productos locales",
-    tag: "Sabores",
+    title: "Parque Vida",
+    subtitle: "Recinto familiar con áreas verdes, juegos y talleres recreativos",
+    tag: "Recreacion",
     image:
-      "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=1600&q=80",
-  },
-  {
-    title: "Trolebus El Encanto",
-    subtitle: "Recorridos historicos y fotografia urbana",
-    tag: "Tours",
-    image:
-      "https://images.unsplash.com/photo-1528909514045-2fa4ac7a08ba?auto=format&fit=crop&w=1600&q=80",
-  },
-  {
-    title: "Gran Estadio Delicias",
-    subtitle: "Deportes, conciertos y eventos masivos",
-    tag: "Entretenimiento",
-    image:
-      "https://images.unsplash.com/photo-1522778119026-d647f0596c20?auto=format&fit=crop&w=1600&q=80",
-  },
-  {
-    title: "Plaza Benito Juarez",
-    subtitle: "Ferias, expos y actividades al aire libre",
-    tag: "Centro",
-    image:
-      "https://images.unsplash.com/photo-1520256862855-398228c41684?auto=format&fit=crop&w=1600&q=80",
-  },
-  {
-    title: "El Colibri - Presa Rosetilla",
-    subtitle: "Miradores, deportes acuaticos y gastronomia en la ribera",
-    tag: "Escapada",
-    image:
-      "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80",
-  },
-  {
-    title: "Cavall 7 Vinedos",
-    subtitle: "Enoturismo, catas guiadas y experiencias gastronomicas",
-    tag: "Vinedos",
-    image:
-      "https://images.unsplash.com/photo-1517170650633-c4f66e06dfd2?auto=format&fit=crop&w=1600&q=80",
-  },
-  {
-    title: "Presa Francisco I. Madero",
-    subtitle: "Paisajes iconicos y actividades nauticas",
-    tag: "Aventura",
-    image:
-      "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1600&q=80",
-  },
-  {
-    title: "Aguas Termales Julimes",
-    subtitle: "Relax natural en el corredor del desierto",
-    tag: "Bienestar",
-    image:
-      "https://images.unsplash.com/photo-1519861531473-9200262188bf?auto=format&fit=crop&w=1600&q=80",
+      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=80",
   },
 ];
 
@@ -505,13 +442,13 @@ export default function Home() {
       >
         <div className="absolute inset-0">
           <Image
-            src="https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=2000&q=80"
-            alt="Paisaje desértico cerca de Delicias"
+            src="/hero-delicias.jpg"
+            alt="Vista aérea de Delicias, Chihuahua"
             fill
             priority
-            className="object-cover brightness-[0.85]"
+            className="object-cover brightness-[0.7] blur-[1px] scale-[1.03]"
           />
-          <div className="absolute inset-0 bg-gradient-to-br from-[#0f172a]/80 via-[#1f2937]/70 to-[#4c1d95]/60" />
+          <div className="absolute inset-0 bg-gradient-to-br from-[#0f172a]/80 via-[#1f2937]/65 to-[#4c1d95]/55" />
         </div>
 
         <motion.div
@@ -567,66 +504,56 @@ export default function Home() {
             </div>
           </motion.nav>
 
-          <div className="relative mt-16 flex flex-1 flex-col justify-center gap-12 pb-6 sm:mt-24">
+          <div className="relative mt-8 flex flex-1 flex-col justify-center gap-6 pb-4 sm:mt-10">
             <motion.div
-              className="max-w-2xl space-y-6 text-white"
+              className="max-w-2xl space-y-5 text-white"
               {...fadeUp(0.1)}
             >
-              <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-emerald-200/80 backdrop-blur-md">
+              <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.35em] text-emerald-200/80 backdrop-blur-md">
                 <BadgeCheck className="h-4 w-4" />
                 Curado por el equipo IDEA
               </div>
-              <h1 className="text-4xl font-semibold leading-tight sm:text-5xl lg:text-6xl">
+              <h1 className="text-3xl font-semibold leading-tight sm:text-4xl lg:text-[42px]">
                 ¿Qué hacer en Delicias?
               </h1>
-              <p className="text-lg text-white/85 sm:text-xl">
-                Inspírate, planifica y reserva experiencias memorables. Te
-                guiamos entre desierto, sabores de la tierra y noches que nunca
-                duermen.
+              <p className="text-base text-white/85 sm:text-lg">
+                Inspírate, planifica y reserva experiencias memorables. Te guiamos entre desierto, sabores de la tierra y noches que nunca duermen.
               </p>
             </motion.div>
 
             <motion.div
-              className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+              className="mx-auto flex w-full max-w-[520px] flex-col gap-1.5"
               {...fadeUp(0.25)}
             >
-              {heroAttractions.map((attraction, index) => {
-                const emphasis =
-                  index === 0
-                    ? "sm:col-span-2 lg:col-span-2 lg:row-span-2 min-h-[18rem]"
-                    : index % 5 === 0
-                    ? "lg:row-span-2 min-h-[16rem]"
-                    : "min-h-[14rem]";
-
-                return (
-                  <motion.div
-                    key={attraction.title}
-                    className={`group relative overflow-hidden rounded-3xl border border-white/15 bg-white/10 backdrop-blur-md shadow-lg transition hover:-translate-y-1 hover:shadow-2xl ${emphasis}`}
-                    {...fadeUp(0.3 + index * 0.02)}
-                  >
-                    <Image
-                      src={attraction.image}
-                      alt={attraction.title}
-                      fill
-                      className="object-cover opacity-85 transition duration-700 group-hover:scale-105 group-hover:opacity-100"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0f172a]/85 via-[#0f172a]/35 to-transparent" />
-                    <div className="relative flex h-full flex-col justify-between p-5 text-white">
-                      <span className="inline-flex w-fit items-center rounded-full bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-emerald-100">
-                        {attraction.tag}
-                      </span>
-                      <div className="space-y-2">
-                        <h3 className="text-lg font-semibold leading-snug">
-                          {attraction.title}
-                        </h3>
-                        <p className="text-sm text-white/80">
-                          {attraction.subtitle}
-                        </p>
-                      </div>
+              {heroAttractions.map((attraction, index) => (
+                <motion.div
+                  key={attraction.title}
+                  className="group relative h-[4.6rem] overflow-hidden rounded-3xl border border-white/20 bg-white/10 backdrop-blur-md shadow-lg transition-transform duration-500 ease-out transform-gpu hover:shadow-2xl"
+                  {...fadeUp(0.3 + index * 0.02)}
+                  whileHover={{ scaleX: 1.07 }}
+                >
+                  <Image
+                    src={attraction.image}
+                    alt={attraction.title}
+                    fill
+                    className="object-cover opacity-90 transition-transform duration-700 group-hover:scale-115"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-r from-[#0f172a]/80 via-[#0f172a]/30 to-transparent transition-opacity duration-500 group-hover:from-[#0f172a]/95 group-hover:via-[#0f172a]/45" />
+                  <div className="relative flex h-full flex-col justify-between px-4 py-3 text-white">
+                    <span className="inline-flex w-fit items-center rounded-full bg-white/15 px-3 py-[4px] text-[9px] font-semibold uppercase tracking-[0.35em] text-emerald-100 transition-colors duration-500 group-hover:bg-white/25 group-hover:text-emerald-50">
+                      {attraction.tag}
+                    </span>
+                    <div className="space-y-1">
+                      <h3 className="text-sm font-semibold leading-snug sm:text-[15px]">
+                        {attraction.title}
+                      </h3>
+                      <p className="text-[11px] text-white/80 sm:text-xs">
+                        {attraction.subtitle}
+                      </p>
                     </div>
-                  </motion.div>
-                );
-              })}
+                  </div>
+                </motion.div>
+              ))}
             </motion.div>
           </div>
 

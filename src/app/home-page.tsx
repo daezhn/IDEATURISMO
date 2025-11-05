@@ -20,7 +20,6 @@ import {
   Music,
   Plane,
   Sun,
-  UtensilsCrossed,
   X,
 } from "lucide-react";
 
@@ -167,6 +166,7 @@ export default function HomePage({
 }: HomePageProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [currentHospitalityIndex, setCurrentHospitalityIndex] = useState(0);
+  const [activeFoodIndex, setActiveFoodIndex] = useState<number | null>(null);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -190,11 +190,21 @@ export default function HomePage({
   }, [hospitalitySlides.length]);
 
   useEffect(() => {
-    document.body.style.overflow = isMenuOpen ? "hidden" : "";
+    document.body.style.overflow = isMenuOpen || activeFoodIndex !== null ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
     };
-  }, [isMenuOpen]);
+  }, [isMenuOpen, activeFoodIndex]);
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setActiveFoodIndex(null);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   const showNextHospitalitySlide = () => {
     if (hospitalitySlides.length <= 1) {
@@ -218,6 +228,8 @@ export default function HomePage({
       : 0;
   const activeHospitalitySlide =
     hospitalitySlides.length > 0 ? hospitalitySlides[activeHospitalityIndex] : undefined;
+  const activeFoodEntry =
+    activeFoodIndex !== null ? foodCategories[activeFoodIndex] : null;
 
   return (
     <div
@@ -395,9 +407,9 @@ export default function HomePage({
 
       <motion.section
         id="hoteles"
-          className="relative overflow-hidden py-36 text-white"
-          {...fadeUp(0)}
-        >
+        className="relative overflow-hidden py-36 text-white"
+        {...fadeUp(0)}
+      >
           <div className="absolute inset-0">
             <Image
             src="/hoteles.jpg"
@@ -512,30 +524,134 @@ export default function HomePage({
         </div>
       </motion.section>
 
+      <motion.section
+        id="gastronomia"
+        className="relative overflow-hidden py-24 text-white"
+        {...fadeUp(0)}
+      >
+        <div className="absolute inset-0">
+          <Image
+            src="/deliciasnoche.jpg"
+            alt="Vista nocturna del centro de Delicias con iluminación cálida"
+            fill
+            sizes="100vw"
+            className="object-cover blur-[2px] brightness-[0.65] scale-110"
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-[#0b1d45]/90 via-[#132a75]/70 to-[#f97316]/55" />
+        </div>
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-36 bg-gradient-to-b from-[#0b1d45] via-[#0b1d45]/40 to-transparent" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-[#fff6ed] via-[#fff6ed]/40 to-transparent" />
+
+        <div className="relative z-10 mx-auto flex max-w-6xl flex-col gap-10 px-6 sm:px-10 lg:px-16">
+          <div className="max-w-3xl space-y-5">
+            <span className="inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-white/85">
+              Gastronomía
+            </span>
+            <h2 className="text-3xl font-semibold sm:text-4xl">¿Qué voy a comer hoy?</h2>
+            <p className="max-w-2xl text-lg text-white/85">
+              Saborea Delicias con rutas fotográficas que muestran desde la alta cocina
+              hasta los antojos exprés. Haz clic en cada categoría para ver el menú a tamaño
+              completo.
+            </p>
+            <Link
+              href="#planifica"
+              className="inline-flex items-center gap-2 rounded-full border border-white/40 px-5 py-2 text-sm font-semibold text-white transition hover:bg-white/10"
+            >
+              Ver ruta foodie →
+            </Link>
+          </div>
+
+          <div className="grid gap-6 sm:grid-cols-2">
+            {foodCategories.map((category, index) => (
+              <motion.button
+                key={category.title}
+                type="button"
+                onClick={() => setActiveFoodIndex(index)}
+                className="group relative h-60 overflow-hidden rounded-[2.5rem] text-left shadow-[0_25px_70px_-45px_rgba(0,0,0,0.55)] transition focus:outline-none focus-visible:ring focus-visible:ring-white/60 sm:h-56"
+                {...fadeUp(0.1 + index * 0.05)}
+                whileHover={{ scale: 1.02 }}
+              >
+                <Image
+                  src={category.image}
+                  alt={category.title}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  className={`object-cover transition duration-700 group-hover:scale-105 ${
+                    category.title === "Un snack" ? "object-[0%_50%]" : "object-center"
+                  }`}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-br from-orange-500/40 via-transparent to-blue-500/35 opacity-0 transition group-hover:opacity-90" />
+                <div className="absolute inset-x-0 bottom-0 space-y-1 px-6 pb-6">
+                  <h3 className="text-xl font-semibold text-white">{category.title}</h3>
+                  <p className="text-sm text-white/80">{category.subtitle}</p>
+                </div>
+              </motion.button>
+            ))}
+          </div>
+
+          <div className="flex flex-wrap items-center gap-6 pt-4">
+            <p className="text-sm uppercase tracking-[0.35em] text-white/80">
+              Distintivos de calidad
+            </p>
+            <div className="flex items-center gap-6">
+              <Image
+                src="/limpio.png"
+                alt="Distintivo Punto Limpio"
+                width={120}
+                height={60}
+                className="h-12 w-auto object-contain drop-shadow-xl"
+              />
+              <Image
+                src="/Moderniza.png"
+                alt="Distintivo Moderniza"
+                width={120}
+                height={60}
+                className="h-12 w-auto object-contain drop-shadow-xl"
+              />
+            </div>
+          </div>
+        </div>
+      </motion.section>
+
       <main className="relative z-20 mx-auto w-full max-w-6xl space-y-24 px-6 py-24 sm:px-8 lg:px-0">
         <motion.section
-          id="gastronomia"
-          className="relative overflow-hidden rounded-[3rem] border border-white/20 bg-white/80 px-6 py-16 shadow-[0_45px_100px_-60px_rgba(249,115,22,0.35)] backdrop-blur sm:px-10 lg:px-16"
-          {...fadeUp(0)}
-        >
-          <div className="pointer-events-none absolute -left-16 top-[-8rem] h-64 w-64 rounded-full bg-orange-300/20 blur-3xl" />
-          <div className="pointer-events-none absolute -right-20 bottom-[-6rem] h-72 w-72 rounded-full bg-blue-400/20 blur-3xl" />
-          <div className="relative z-10 grid gap-10 lg:grid-cols-[1fr_1.35fr]">
-            <div className="space-y-5">
-              <span className="inline-flex items-center gap-2 rounded-full bg-blue-600/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-blue-700">
+        id="gastronomia"
+        className="relative -mx-6 overflow-hidden px-6 py-28 text-white shadow-[0_45px_100px_-60px_rgba(249,115,22,0.35)] sm:-mx-10 sm:px-10 lg:-mx-16 lg:px-16"
+      {...fadeUp(0)}
+    >
+          <div className="absolute inset-0">
+            <Image
+              src="/deliciasnoche.jpg"
+              alt="Vista nocturna del centro de Delicias con iluminación cálida"
+              fill
+              sizes="100vw"
+              className="object-cover blur-[2px] brightness-75 scale-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-br from-[#0b1d45]/85 via-[#1d4ed8]/60 to-[#f97316]/55" />
+          </div>
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#0b1d45]/70 via-transparent to-transparent" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#fff6ed] via-transparent to-transparent" />
+        <div className="pointer-events-none absolute -left-16 top-[-8rem] h-64 w-64 rounded-full bg-orange-300/30 blur-3xl" />
+        <div className="pointer-events-none absolute -right-20 bottom-[-6rem] h-72 w-72 rounded-full bg-blue-400/30 blur-3xl" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.35),rgba(255,255,255,0)_55%)] opacity-60" />
+
+        <div className="relative z-10 mx-auto flex max-w-6xl flex-col gap-12">
+            <div className="max-w-3xl space-y-5">
+              <span className="inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-white/80">
                 Gastronomía
               </span>
-              <h2 className="text-3xl font-semibold text-slate-900 sm:text-4xl">
+              <h2 className="text-3xl font-semibold sm:text-4xl">
                 ¿Qué voy a comer hoy?
               </h2>
-              <p className="max-w-xl text-lg text-slate-600">
-                Saborea Delicias a través de rutas temáticas: alta cocina para los
-                paladares exigentes, spots relajados para compartir y antojos listos para
-                continuar la aventura.
+              <p className="max-w-2xl text-lg text-white/85">
+                Saborea Delicias con cuatro rutas que muestran desde alta cocina hasta
+                antojos express. Da clic en cada categoría para conocer el menú y detalles
+                completos.
               </p>
               <Link
                 href="#planifica"
-                className="inline-flex items-center gap-2 rounded-full border border-blue-500/40 px-5 py-2 text-sm font-semibold text-blue-600 transition hover:bg-blue-500/10"
+                className="inline-flex items-center gap-2 rounded-full border border-white/40 px-5 py-2 text-sm font-semibold text-white transition hover:bg-white/10"
               >
                 Ver ruta foodie →
               </Link>
@@ -543,9 +659,11 @@ export default function HomePage({
 
             <div className="grid gap-6 sm:grid-cols-2">
               {foodCategories.map((category, index) => (
-                <motion.figure
+                <motion.button
                   key={category.title}
-                  className="group relative h-64 overflow-hidden rounded-[2.5rem] shadow-[0_25px_70px_-45px_rgba(15,23,42,0.4)]"
+                  type="button"
+                  onClick={() => setActiveFoodIndex(index)}
+                  className="group relative h-64 overflow-hidden rounded-[2.5rem] text-left shadow-[0_25px_70px_-45px_rgba(15,23,42,0.45)] transition focus:outline-none focus-visible:ring focus-visible:ring-white/60"
                   {...fadeUp(0.1 + index * 0.05)}
                   whileHover={{ scale: 1.02 }}
                 >
@@ -554,19 +672,40 @@ export default function HomePage({
                     alt={category.title}
                     fill
                     sizes="(max-width: 768px) 100vw, 50vw"
-                    className="object-cover transition duration-700 group-hover:scale-105"
+                    className={`object-cover transition duration-700 group-hover:scale-105 ${
+                      category.title === "Un snack" ? "object-[15%_50%]" : "object-center"
+                    }`}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-blue-950/70 via-blue-950/20 to-transparent" />
-                  <div className="absolute inset-0 bg-gradient-to-br from-orange-500/30 via-transparent to-blue-500/30 opacity-0 transition group-hover:opacity-80" />
-                  <figcaption className="absolute inset-x-0 bottom-0 space-y-2 px-6 pb-6">
-                    <span className="inline-flex rounded-full bg-white/15 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.35em] text-white/80">
-                      Sabores
-                    </span>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-orange-500/25 via-transparent to-blue-500/25 opacity-0 transition group-hover:opacity-80" />
+                  <div className="absolute inset-x-0 bottom-0 space-y-1 px-6 pb-6">
                     <h3 className="text-xl font-semibold text-white">{category.title}</h3>
                     <p className="text-sm text-white/80">{category.subtitle}</p>
-                  </figcaption>
-                </motion.figure>
+                  </div>
+                </motion.button>
               ))}
+            </div>
+
+            <div className="flex flex-wrap items-center gap-6">
+              <p className="text-sm uppercase tracking-[0.35em] text-white/75">
+                Distintivos de calidad
+              </p>
+              <div className="flex items-center gap-6">
+                <Image
+                  src="/limpio.png"
+                  alt="Distintivo Punto Limpio"
+                  width={120}
+                  height={60}
+                  className="h-12 w-auto object-contain drop-shadow-lg"
+                />
+                <Image
+                  src="/Moderniza.png"
+                  alt="Distintivo Moderniza"
+                  width={120}
+                  height={60}
+                  className="h-12 w-auto object-contain drop-shadow-lg"
+                />
+              </div>
             </div>
           </div>
         </motion.section>
@@ -960,6 +1099,51 @@ export default function HomePage({
           </div>
         </motion.section>
       </main>
+
+      <AnimatePresence>
+        {activeFoodEntry ? (
+          <motion.div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/80 backdrop-blur"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            onClick={() => setActiveFoodIndex(null)}
+          >
+            <motion.figure
+              className="relative mx-4 flex max-h-[88vh] w-full max-w-3xl flex-col overflow-hidden rounded-[2.75rem] bg-slate-950/90 p-6 shadow-[0_50px_140px_-70px_rgba(0,0,0,0.9)]"
+              initial={{ opacity: 0, scale: 0.94 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.96 }}
+              transition={{ duration: 0.25 }}
+              onClick={(event) => event.stopPropagation()}
+            >
+              <button
+                type="button"
+                onClick={() => setActiveFoodIndex(null)}
+                className="absolute right-4 top-4 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/15 text-white transition hover:bg-white/25 focus:outline-none focus-visible:ring focus-visible:ring-blue-300"
+                aria-label="Cerrar detalle gastronómico"
+              >
+                <X className="h-5 w-5" />
+              </button>
+              <div className="relative flex min-h-[60vh] w-full items-center justify-center overflow-hidden rounded-[1.75rem] bg-slate-900/70">
+                <Image
+                  src={activeFoodEntry.image}
+                  alt={activeFoodEntry.title}
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 960px"
+                  className="object-contain"
+                  priority
+                />
+              </div>
+              <figcaption className="mt-6 space-y-2 text-center text-white">
+                <h3 className="text-2xl font-semibold">{activeFoodEntry.title}</h3>
+                <p className="text-sm text-white/70">{activeFoodEntry.subtitle}</p>
+              </figcaption>
+            </motion.figure>
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
 
       <footer className="border-t border-slate-200 bg-white py-10">
         <div className="mx-auto flex max-w-6xl flex-col gap-10 px-6 sm:flex-row sm:items-center sm:justify-between sm:px-10 lg:px-16">

@@ -1,8 +1,7 @@
 import HomePage, {
   type ExperienceData,
-  type FoodSpot,
   type HeroAttraction,
-  type HotelOption,
+  type HospitalitySlide,
   type NavLink,
   type Neighborhood,
   type NightlifeSpot,
@@ -13,7 +12,7 @@ import HomePage, {
 
 const navLinks: NavLink[] = [
   { href: "#que-hacer", label: "¿Qué hacer?" },
-  { href: "#hoteles", label: "Hoteles" },
+  { href: "#hoteles", label: "Hospedaje" },
   { href: "#gastronomia", label: "Qué comer" },
   { href: "#vida-nocturna", label: "Vida nocturna" },
   { href: "#planifica", label: "Planifica" },
@@ -65,113 +64,34 @@ const heroAttractions: HeroAttraction[] = [
   },
 ];
 
-const hotels: HotelOption[] = [
+const hospitalitySlides: HospitalitySlide[] = [
   {
-    name: "Casa Nogal Boutique",
-    category: "Escapada romántica",
-    description:
-      "Hotel con nueve suites diseñadas por artistas locales, terraza con vista a los nogales y desayuno artesanal incluido.",
     image:
       "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1600&q=80",
-    highlights: [
-      "Galería de arte en lobby",
-      "Experiencia gastronómica a la carta",
-      "A 5 min del centro histórico",
-    ],
+    alt: "Habitación boutique con detalles de madera y textiles cálidos",
+    description:
+      "Suites boutique inspiradas en el desierto chihuahuense, perfectas para escapadas románticas o creativas.",
   },
   {
-    name: "Hotel Valle Dorado",
-    category: "Viaje de negocios",
-    description:
-      "Hotel céntrico con salones de reuniones, transporte ejecutivo y habitaciones insonorizadas.",
     image:
       "https://images.unsplash.com/photo-1525955667796-31c11d27b1c1?auto=format&fit=crop&w=1600&q=80",
-    highlights: [
-      "Centro de negocios 24/7",
-      "Alianzas con coworkings locales",
-      "Traslado aeropuerto bajo demanda",
-    ],
+    alt: "Lobby contemporáneo con iluminación cálida y zona de trabajo",
+    description:
+      "Centros de hospedaje con servicios ejecutivos y espacios flexibles para quienes visitan Delicias por negocios.",
   },
   {
-    name: "Lodge Las Vírgenes",
-    category: "Naturaleza",
-    description:
-      "Cabañas modulares frente a la presa con fogateros privados, actividades acuáticas y observación de estrellas.",
     image:
       "https://images.unsplash.com/photo-1501117716987-c8e1ecb21078?auto=format&fit=crop&w=1600&q=80",
-    highlights: [
-      "Kayaks y paddle board incluidos",
-      "Constelaciones guiadas por astronomía",
-      "Uso de bicicletas eléctricas",
-    ],
+    alt: "Cabañas frente al agua rodeadas de vegetación al atardecer",
+    description:
+      "Cabañas y lodges frente a la Presa Las Vírgenes para conectar con la naturaleza y las constelaciones del semidesierto.",
   },
   {
-    name: "Hotel Ejecutivo 33000",
-    category: "Familias y grupos",
-    description:
-      "Habitaciones conectadas, alberca climatizada y paquetes con tours urbanos para toda la familia.",
     image:
       "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1600&q=80",
-    highlights: [
-      "Club infantil fines de semana",
-      "Desayuno buffet regional",
-      "Estacionamiento techado gratuito",
-    ],
-  },
-];
-
-const foodSpots: FoodSpot[] = [
-  {
-    name: "Mercado Gastronómico Central",
-    style: "Ruta foodie",
+    alt: "Alberca climatizada junto a camastros y palmeras",
     description:
-      "Colectivo de productores y chefs emergentes que reinterpretan ingredientes de la región con técnicas contemporáneas.",
-    image:
-      "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1600&q=80",
-    specialties: [
-      "Tacos de barbacoa con reducción de nuez",
-      "Fresas con crema de sotol",
-      "Cold brew de café de la sierra",
-    ],
-  },
-  {
-    name: "La Cosecha 330",
-    style: "Cocina de temporal",
-    description:
-      "Menú degustación inspirado en los ciclos agrícolas y maridaje con vinos chihuahuenses.",
-    image:
-      "https://images.unsplash.com/photo-1525755662778-989d0524087e?auto=format&fit=crop&w=1600&q=80",
-    specialties: [
-      "Risotto de elote y queso menonita",
-      "Pescado al sotol con quelites",
-      "Tartaleta de nuez caramelizada",
-    ],
-  },
-  {
-    name: "Doña Mago Antojitos",
-    style: "Sabores tradicionales",
-    description:
-      "Comal a la vista, tortillas hechas a mano y menú rotativo con recetas familiares.",
-    image:
-      "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?auto=format&fit=crop&w=1600&q=80",
-    specialties: [
-      "Gorditas de asado rojo",
-      "Tacos de deshebrada con chile pasilla",
-      "Champurrado con piloncillo",
-    ],
-  },
-  {
-    name: "Lunaria Café & Bakeshop",
-    style: "Coffee lovers",
-    description:
-      "Espacio creativo con repostería de autor, barra de método y pop-ups de diseñadores locales.",
-    image:
-      "https://images.unsplash.com/photo-1525054098605-8e762c017741?auto=format&fit=crop&w=1600&q=80",
-    specialties: [
-      "Latte con leche de nuez",
-      "Croissant de cajeta",
-      "Experiencias de cata semanal",
-    ],
+      "Complejos familiares con alberca climatizada, habitaciones comunicadas y actividades para grupos.",
   },
 ];
 
@@ -356,8 +276,7 @@ export default function Page() {
   return (
     <HomePage
       heroAttractions={heroAttractions}
-      hotels={hotels}
-      foodSpots={foodSpots}
+      hospitalitySlides={hospitalitySlides}
       nightlifeSpots={nightlifeSpots}
       seasonalExperiences={seasonalExperiences}
       events={events}

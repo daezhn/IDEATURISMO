@@ -154,9 +154,6 @@ const fadeUp = (delay = 0) => ({
 const primaryButtonClasses =
   "inline-flex items-center justify-center gap-2 rounded-full bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-500 focus:outline-none focus-visible:ring focus-visible:ring-blue-200";
 
-const secondaryButtonClasses =
-  "inline-flex items-center justify-center gap-2 rounded-full border border-blue-200 px-6 py-3 text-sm font-semibold text-blue-700 transition hover:bg-blue-50 focus:outline-none focus-visible:ring focus-visible:ring-blue-200";
-
 export default function HomePage({
   heroAttractions,
   hospitalitySlides,
@@ -235,7 +232,7 @@ export default function HomePage({
   return (
     <div className="bg-gradient-to-b from-white via-amber-50/40 to-white text-blue-900">
       <header className="sticky top-0 z-30 border-b border-orange-200 bg-white/90 backdrop-blur">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4 sm:px-10 lg:px-16">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-700 text-white shadow-sm">
               <Sun className="h-5 w-5" />
@@ -325,14 +322,14 @@ export default function HomePage({
             className="object-cover brightness-[0.9]"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-white/40 via-transparent to-blue-900/85" />
-          <div className="relative mx-auto flex h-screen max-w-6xl flex-col justify-center gap-16 px-6 py-24 sm:px-10 lg:px-16">
-            <motion.div className="max-w-4xl space-y-10" {...fadeUp(0.05)}>
-              <div className="space-y-6 text-orange-100">
-                <div className="space-y-4">
-                  <h1 className="text-5xl font-semibold leading-tight text-orange-200 sm:text-[60px] sm:leading-[1.05]">
+          <div className="relative mx-auto flex h-screen max-w-7xl flex-col justify-center px-4 py-20 sm:px-6 lg:px-8">
+            <motion.div className="max-w-4xl" {...fadeUp(0.05)}>
+              <div className="space-y-6 rounded-3xl border border-blue-800/40 bg-gradient-to-br from-blue-950/90 via-blue-900/70 to-blue-800/60 p-8 shadow-[0_35px_90px_-45px_rgba(12,74,110,0.65)] backdrop-blur-sm sm:p-10">
+                <div className="space-y-4 text-orange-100">
+                  <h1 className="text-4xl font-semibold leading-tight text-orange-200 sm:text-[56px] sm:leading-[1.05]">
                     Vive la cultura, los sabores y la energía de Delicias.
                   </h1>
-                  <p className="text-lg text-orange-100 sm:text-xl">
+                  <p className="text-base text-orange-100 sm:text-lg">
                     Inspirados en las capitales creativas, curamos itinerarios, eventos y experiencias auténticas para tu siguiente visita.
                   </p>
                 </div>
@@ -342,7 +339,7 @@ export default function HomePage({
         </motion.section>
 
         <motion.section
-          className="mx-auto max-w-6xl px-6 sm:px-10 lg:px-16"
+          className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
           {...fadeUp(0.05)}
         >
           <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
@@ -393,7 +390,7 @@ export default function HomePage({
 
         <motion.section
           id="hoteles"
-          className="mx-auto max-w-6xl px-6 sm:px-10 lg:px-16"
+          className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
           {...fadeUp(0.05)}
         >
           <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
@@ -498,7 +495,7 @@ export default function HomePage({
 
         <motion.section
           id="gastronomia"
-          className="mx-auto max-w-6xl px-6 sm:px-10 lg:px-16"
+          className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
           {...fadeUp(0.05)}
         >
           <div className="rounded-3xl border border-blue-100 bg-white p-10 shadow-sm">
@@ -578,7 +575,7 @@ export default function HomePage({
 
         <motion.section
           id="agenda"
-          className="mx-auto max-w-6xl px-6 sm:px-10 lg:px-16"
+          className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
           {...fadeUp(0.05)}
         >
           <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
@@ -643,7 +640,7 @@ export default function HomePage({
 
         <motion.section
           id="vida-nocturna"
-          className="mx-auto max-w-6xl px-6 sm:px-10 lg:px-16"
+          className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
           {...fadeUp(0.05)}
         >
           <div className="rounded-3xl border border-blue-100 bg-white p-10 shadow-sm">
@@ -703,7 +700,7 @@ export default function HomePage({
 
         <motion.section
           id="barrios"
-          className="mx-auto max-w-6xl px-6 sm:px-10 lg:px-16"
+          className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
           {...fadeUp(0.05)}
         >
           <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
@@ -795,7 +792,7 @@ export default function HomePage({
 
         <motion.section
           id="planifica"
-          className="mx-auto max-w-6xl px-6 sm:px-10 lg:px-16"
+          className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
           {...fadeUp(0.05)}
         >
           <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr]">
@@ -854,7 +851,7 @@ export default function HomePage({
 
         <motion.section
           id="contacto"
-          className="mx-auto max-w-6xl px-6 sm:px-10 lg:px-16"
+          className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
           {...fadeUp(0.05)}
         >
           <div className="grid gap-10 rounded-3xl border border-blue-100 bg-white p-10 shadow-sm md:grid-cols-[1.1fr_0.9fr]">
@@ -969,7 +966,7 @@ export default function HomePage({
       </AnimatePresence>
 
       <footer className="border-t border-orange-200 bg-white py-10">
-        <div className="mx-auto flex max-w-6xl flex-col gap-6 px-6 text-sm text-orange-500 sm:flex-row sm:items-center sm:justify-between sm:px-10 lg:px-16">
+        <div className="mx-auto flex max-w-7xl flex-col gap-6 px-4 text-sm text-orange-500 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
           <p>
             © {new Date().getFullYear()} Instituto de Desarrollo Económico y Agropecuario (IDEA) · Delicias.
           </p>

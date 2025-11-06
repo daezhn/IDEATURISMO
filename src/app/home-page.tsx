@@ -6,10 +6,11 @@ import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import type { LucideIcon } from "lucide-react";
 import {
-  ChevronLeft,
-  ChevronRight,
   Bus,
   Camera,
+  CalendarDays,
+  ChevronLeft,
+  ChevronRight,
   Compass,
   Hotel,
   Leaf,
@@ -137,21 +138,24 @@ const foodCategories = [
 ] as const;
 
 const fadeUp = (delay = 0) => ({
-  initial: { opacity: 0, y: 40 },
+  initial: { opacity: 0, y: 28 },
   whileInView: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.7,
       delay,
-      ease: [0.25, 0.8, 0.25, 1] as const,
+      duration: 0.6,
+      ease: [0.22, 0.61, 0.36, 1],
     },
   },
-  viewport: { once: true, amount: 0.3 },
+  viewport: { once: true, margin: "-80px" },
 });
 
 const primaryButtonClasses =
-  "inline-flex items-center justify-center gap-2 rounded-full bg-orange-500 px-6 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-orange-400 focus:outline-none focus-visible:ring focus-visible:ring-orange-200";
+  "inline-flex items-center justify-center gap-2 rounded-full bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-500 focus:outline-none focus-visible:ring focus-visible:ring-blue-200";
+
+const secondaryButtonClasses =
+  "inline-flex items-center justify-center gap-2 rounded-full border border-blue-200 px-6 py-3 text-sm font-semibold text-blue-700 transition hover:bg-blue-50 focus:outline-none focus-visible:ring focus-visible:ring-blue-200";
 
 export default function HomePage({
   heroAttractions,
@@ -172,6 +176,7 @@ export default function HomePage({
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         setIsMenuOpen(false);
+        setActiveFoodIndex(null);
       }
     };
 
@@ -183,9 +188,11 @@ export default function HomePage({
     if (hospitalitySlides.length <= 1) {
       return undefined;
     }
+
     const intervalId = window.setInterval(() => {
       setCurrentHospitalityIndex((prev) => (prev + 1) % hospitalitySlides.length);
     }, 7000);
+
     return () => window.clearInterval(intervalId);
   }, [hospitalitySlides.length]);
 
@@ -195,16 +202,6 @@ export default function HomePage({
       document.body.style.overflow = "";
     };
   }, [isMenuOpen, activeFoodIndex]);
-
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setActiveFoodIndex(null);
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
 
   const showNextHospitalitySlide = () => {
     if (hospitalitySlides.length <= 1) {
@@ -226,437 +223,464 @@ export default function HomePage({
     hospitalitySlides.length > 0
       ? Math.min(currentHospitalityIndex, hospitalitySlides.length - 1)
       : 0;
+
   const activeHospitalitySlide =
     hospitalitySlides.length > 0 ? hospitalitySlides[activeHospitalityIndex] : undefined;
+
   const activeFoodEntry =
     activeFoodIndex !== null ? foodCategories[activeFoodIndex] : null;
 
+  const featuredFoodEntry = activeFoodEntry ?? foodCategories[0];
+
   return (
-    <div
-      className="relative min-h-screen overflow-hidden text-slate-900"
-      style={{
-        backgroundImage:
-          "linear-gradient(190deg, rgba(8, 17, 48, 0.96) 0%, rgba(18, 33, 94, 0.88) 20%, rgba(29, 78, 216, 0.62) 42%, rgba(249, 115, 22, 0.28) 62%, rgba(255, 255, 255, 0.97) 80%, #fff9f4 100%), radial-gradient(circle at 14% 18%, rgba(249, 115, 22, 0.5), transparent 55%), radial-gradient(circle at 86% 22%, rgba(29, 78, 216, 0.4), transparent 58%), radial-gradient(circle at 50% 92%, rgba(255, 196, 124, 0.42), transparent 68%), linear-gradient(120deg, rgba(255, 255, 255, 0.42) 0%, rgba(255, 255, 255, 0.12) 40%, rgba(255, 255, 255, 0.32) 60%, rgba(255, 255, 255, 0) 85%)",
-      }}
-    >
-      <div className="pointer-events-none absolute inset-x-0 top-[-18rem] h-[30rem] bg-gradient-to-b from-white/40 via-white/10 to-transparent" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_22%_-10%,rgba(255,255,255,0.4),rgba(255,255,255,0)_52%),radial-gradient(circle_at_82%_6%,rgba(255,255,255,0.24),rgba(255,255,255,0)_50%)] opacity-65 mix-blend-screen" />
-      <motion.section
-        id="que-hacer"
-        className="relative min-h-screen overflow-hidden"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-      >
-        <div className="absolute inset-0">
+    <div className="bg-gradient-to-b from-white via-amber-50/40 to-white text-blue-900">
+      <header className="sticky top-0 z-30 border-b border-orange-200 bg-white/90 backdrop-blur">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4 sm:px-10 lg:px-16">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-700 text-white shadow-sm">
+              <Sun className="h-5 w-5" />
+            </div>
+            <div>
+              <p className="text-xs uppercase tracking-[0.35em] text-orange-500">Idea Turismo</p>
+              <p className="text-lg font-semibold text-orange-500">Delicias, Chihuahua</p>
+            </div>
+          </div>
+
+          <nav className="hidden items-center gap-6 text-sm font-medium text-orange-500 md:flex">
+            {navLinks.map((item) => (
+              <Link key={item.href} href={item.href} className="transition hover:text-blue-800">
+                {item.label}
+              </Link>
+            ))}
+            <a
+              href="#planifica"
+              className="inline-flex items-center justify-center rounded-full bg-blue-700 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-600"
+            >
+              Planifica tu viaje
+            </a>
+          </nav>
+
+          <button
+            type="button"
+            className="inline-flex items-center justify-center rounded-full bg-blue-700 p-2 text-white transition hover:bg-blue-600 focus:outline-none focus-visible:ring focus-visible:ring-blue-200 md:hidden"
+            aria-expanded={isMenuOpen}
+            aria-controls="primary-navigation"
+            onClick={() => setIsMenuOpen((prev) => !prev)}
+          >
+            {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            <span className="sr-only">
+              {isMenuOpen ? "Cerrar navegación" : "Abrir navegación"}
+            </span>
+          </button>
+        </div>
+
+        <AnimatePresence>
+          {isMenuOpen ? (
+            <motion.nav
+              id="primary-navigation"
+              initial={{ opacity: 0, y: -12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -12 }}
+              transition={{ duration: 0.2 }}
+              className="mx-6 mt-2 rounded-3xl border border-orange-200 bg-white p-6 text-orange-500 shadow-lg md:hidden"
+            >
+              <div className="flex flex-col gap-4 text-sm font-medium">
+                {navLinks.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className="rounded-2xl bg-orange-50 px-4 py-2 transition hover:bg-orange-100"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+                <a
+                  href="#planifica"
+                  className="inline-flex items-center justify-center rounded-full bg-blue-700 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-600"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Planifica tu viaje
+                </a>
+              </div>
+            </motion.nav>
+          ) : null}
+        </AnimatePresence>
+      </header>
+
+      <main className="space-y-24 pb-24">
+        <motion.section
+          id="que-hacer"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6 }}
+          className="relative overflow-hidden bg-blue-900 text-white"
+        >
           <Image
             src="/hero-delicias.jpg"
             alt="Vista aérea de Delicias, Chihuahua"
             fill
             priority
             sizes="100vw"
-            className="object-cover brightness-[0.7] blur-[1px] scale-[1.03]"
+            className="object-cover brightness-[0.9]"
           />
-          <div className="absolute inset-0 bg-gradient-to-br from-[#0b1f4b]/85 via-[#1d4ed8]/65 to-[#f97316]/55" />
-        </div>
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#0b1f4b]/70 via-transparent to-transparent" />
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#0b1d45]/60 via-transparent to-transparent" />
-
-        <motion.div
-          className="relative z-10 mx-auto flex min-h-screen max-w-6xl flex-col px-6 pb-24 pt-6 sm:px-10 lg:px-16"
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: [0.25, 0.8, 0.25, 1] }}
-        >
-          <motion.nav
-            className="flex items-center justify-between rounded-full bg-white/10 px-6 py-4 backdrop-blur-lg"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.6 }}
-          >
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/90 shadow-lg shadow-blue-500/30">
-                <Sun className="h-5 w-5 text-[#f97316]" />
-              </div>
-              <div>
-                <p className="text-xs uppercase tracking-[0.3em] text-white/70">
-                  IDEA Turismo
-                </p>
-                <p className="text-lg font-semibold text-white">
-                  Descubre Delicias
-                </p>
-              </div>
-            </div>
-
-            <div className="hidden items-center gap-6 text-sm text-white/80 md:flex">
-              {navLinks.map((item) => (
-                <Link key={item.href} href={item.href} className="hover:text-white">
-                  {item.label}
-                </Link>
-              ))}
-              <a
-                href="#planifica"
-                className="rounded-full bg-white px-4 py-2 font-semibold text-blue-900 transition hover:bg-orange-100"
-              >
-                Planifica tu viaje
-              </a>
-            </div>
-
-            <button
-              type="button"
-              className="inline-flex items-center justify-center rounded-full bg-white/15 p-2 text-white transition hover:bg-white/30 focus:outline-none focus-visible:ring focus-visible:ring-white/90 md:hidden"
-              aria-expanded={isMenuOpen}
-              aria-controls="primary-navigation"
-              onClick={() => setIsMenuOpen((prev) => !prev)}
-            >
-              {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-              <span className="sr-only">
-                {isMenuOpen ? "Cerrar navegación" : "Abrir navegación"}
-              </span>
-            </button>
-          </motion.nav>
-
-          <AnimatePresence>
-            {isMenuOpen ? (
-              <motion.div
-                id="primary-navigation"
-                initial={{ opacity: 0, y: -16 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -12 }}
-                transition={{ duration: 0.2 }}
-                className="relative mt-4 rounded-3xl border border-white/20 bg-white/15 p-6 text-white backdrop-blur-xl md:hidden"
-              >
-                <nav className="flex flex-col gap-4 text-sm">
-                  {navLinks.map((item) => (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      className="inline-flex items-center gap-2 rounded-full bg-white/5 px-4 py-2 transition hover:bg-white/20"
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      {item.label}
-                    </Link>
-                  ))}
-                  <a
-                    href="#planifica"
-                    className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-4 py-2 font-semibold text-blue-900 transition hover:bg-orange-100"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    Planifica tu viaje
-                  </a>
-                </nav>
-              </motion.div>
-            ) : null}
-          </AnimatePresence>
-
-          <div className="relative mt-8 grid flex-1 gap-8 pb-4 sm:mt-10 lg:grid-cols-[1.05fr_1.95fr]">
-            <motion.div className="flex flex-col justify-center space-y-5 text-white" {...fadeUp(0.1)}>
-              <h1 className="text-3xl font-semibold leading-tight sm:text-4xl lg:text-[42px]">
-                ¿Qué hacer en Delicias?
-              </h1>
-              <p className="text-base text-white/85 sm:text-lg">
-                Inspírate, planifica y reserva experiencias memorables. Te guiamos entre
-                desierto, sabores de la tierra y noches que nunca duermen.
-              </p>
-            </motion.div>
-
-            <motion.div className="grid w-full gap-4 sm:grid-cols-2 xl:grid-cols-3" {...fadeUp(0.25)}>
-              {heroAttractions.map((attraction, index) => (
-                <motion.div
-                  key={attraction.title}
-                  className="group relative min-h-[7.5rem] overflow-hidden rounded-3xl border border-white/20 bg-white/10 backdrop-blur-md shadow-lg transition-transform duration-500 ease-out transform-gpu hover:shadow-2xl"
-                  {...fadeUp(0.3 + index * 0.02)}
-                  whileHover={{ scaleX: 1.07 }}
-                >
-                  <Image
-                    src={attraction.image}
-                    alt={attraction.title}
-                    fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 360px"
-                    className="object-cover opacity-90 transition-transform duration-700 group-hover:scale-[1.15]"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-r from-[#0f172a]/80 via-[#0f172a]/30 to-transparent transition-opacity duration-500 group-hover:from-[#0f172a]/95 group-hover:via-[#0f172a]/45" />
-                  <div className="relative flex h-full flex-col justify-between px-5 py-4 text-white">
-                    <span className="inline-flex w-fit items-center rounded-full bg-white/15 px-3 py-[5px] text-[10px] font-semibold uppercase tracking-[0.35em] text-orange-100 transition-colors duration-500 group-hover:bg-white/25 group-hover:text-orange-50">
-                      {attraction.tag}
-                    </span>
-                    <div className="space-y-1">
-                      <h3 className="text-base font-semibold leading-snug sm:text-lg">
-                        {attraction.title}
-                      </h3>
-                      <p className="text-xs text-white/80 sm:text-sm">{attraction.subtitle}</p>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
-          </div>
-
-          <motion.div
-            className="pointer-events-none absolute -left-32 top-1/3 h-80 w-80 rounded-full bg-blue-500/25 blur-3xl"
-            animate={{ opacity: [0.4, 0.7, 0.4], scale: [0.9, 1.05, 0.9] }}
-            transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-          />
-          <motion.div
-            className="pointer-events-none absolute -right-40 top-16 h-96 w-96 rounded-full bg-orange-500/20 blur-3xl"
-            animate={{ opacity: [0.3, 0.6, 0.3], scale: [0.85, 1.1, 0.85] }}
-            transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
-          />
-        </motion.div>
-      </motion.section>
-
-      <motion.section
-        id="hoteles"
-        className="relative overflow-hidden py-36 text-white"
-        {...fadeUp(0)}
-      >
-          <div className="absolute inset-0">
-            <Image
-            src="/hoteles.jpg"
-            alt="Fachada de hotel en Delicias, Chihuahua"
-            fill
-            sizes="100vw"
-            className="object-cover blur-sm brightness-75 scale-105"
-            priority={false}
-          />
-          <div className="absolute inset-0 bg-gradient-to-br from-[#0b1d45]/85 via-[#1d4ed8]/65 to-[#f97316]/55" />
-        </div>
-          <div className="pointer-events-none absolute -left-24 top-10 h-64 w-64 rounded-full bg-blue-400/35 blur-3xl" />
-          <div className="pointer-events-none absolute -right-28 bottom-6 h-72 w-72 rounded-full bg-orange-400/35 blur-3xl" />
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.35),rgba(255,255,255,0)_55%)] opacity-60" />
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#0b1d45]/70 via-transparent to-transparent" />
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#fff9f4] via-transparent to-transparent" />
-          <div className="relative z-10 mx-auto flex max-w-6xl flex-col gap-10 px-6 sm:px-10 lg:px-16">
-            <div className="space-y-3">
-              <span className="text-xs uppercase tracking-[0.4em] text-orange-200/85">
-                Hospedaje
-              </span>
-            <h2 className="text-3xl font-semibold sm:text-4xl">
-              Inspírate con espacios para descansar en Delicias
-            </h2>
-            <p className="max-w-2xl text-base text-white/85 sm:text-lg">
-              Explora vistas y ambientes de la región antes de reservar con los aliados
-              oficiales del municipio.
-            </p>
-          </div>
-
-          <div className="relative overflow-hidden rounded-[2.5rem] border border-white/20 bg-white/5 shadow-[0_35px_90px_-50px_rgba(255,255,255,0.55)] backdrop-blur">
-            <AnimatePresence mode="wait">
-              {hospitalitySlides.length > 0 ? (
-                <motion.figure
-                  key={activeHospitalitySlide?.image ?? `hospedaje-${activeHospitalityIndex}`}
-                  className="relative h-[320px] w-full overflow-hidden sm:h-[380px] lg:h-[420px]"
-                  initial={{ opacity: 0, scale: 0.98 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 1.02 }}
-                  transition={{ duration: 0.6, ease: "easeOut" }}
-                >
-                  <Image
-                    src={activeHospitalitySlide?.image ?? ""}
-                    alt={activeHospitalitySlide?.alt ?? "Fotografía de hospedaje en Delicias"}
-                    fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1280px) 80vw, 960px"
-                    className="object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/20 to-transparent" />
-                  <figcaption className="absolute bottom-0 w-full px-6 pb-6 text-sm text-white/85 sm:text-base">
-                    {activeHospitalitySlide?.description}
-                  </figcaption>
-                </motion.figure>
-              ) : (
-                <div className="flex h-[320px] items-center justify-center text-sm text-white/70 sm:h-[380px] lg:h-[420px]">
-                  Estamos reuniendo fotografías de hospedajes.
+          <div className="absolute inset-0 bg-gradient-to-b from-white/40 via-transparent to-blue-900/85" />
+          <div className="relative mx-auto flex h-screen max-w-6xl flex-col justify-center gap-16 px-6 py-24 sm:px-10 lg:px-16">
+            <motion.div className="max-w-4xl space-y-10" {...fadeUp(0.05)}>
+              <div className="space-y-6 text-orange-100">
+                <div className="space-y-4">
+                  <h1 className="text-5xl font-semibold leading-tight text-orange-200 sm:text-[60px] sm:leading-[1.05]">
+                    Vive la cultura, los sabores y la energía de Delicias.
+                  </h1>
+                  <p className="text-lg text-orange-100 sm:text-xl">
+                    Inspirados en las capitales creativas, curamos itinerarios, eventos y experiencias auténticas para tu siguiente visita.
+                  </p>
                 </div>
-              )}
-            </AnimatePresence>
-
-            {hospitalitySlides.length > 1 ? (
-              <>
-                <button
-                  type="button"
-                  onClick={showPreviousHospitalitySlide}
-                  className="absolute left-4 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-black/50 backdrop-blur hover:bg-black/60 focus:outline-none focus-visible:ring focus-visible:ring-blue-200/70"
-                  aria-label="Ver imagen anterior de hospedajes"
-                >
-                  <ChevronLeft className="h-5 w-5" />
-                </button>
-                <button
-                  type="button"
-                  onClick={showNextHospitalitySlide}
-                  className="absolute right-4 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-black/50 backdrop-blur hover:bg-black/60 focus:outline-none focus-visible:ring focus-visible:ring-blue-200/70"
-                  aria-label="Ver imagen siguiente de hospedajes"
-                >
-                  <ChevronRight className="h-5 w-5" />
-                </button>
-              </>
-            ) : null}
+              </div>
+            </motion.div>
           </div>
+        </motion.section>
 
-          {hospitalitySlides.length > 1 ? (
-            <div className="flex items-center justify-center gap-3">
-              {hospitalitySlides.map((slide, slideIndex) => {
-                const isActive = slideIndex === activeHospitalityIndex;
-                return (
-                  <button
-                    key={slide.image}
-                    type="button"
-                    onClick={() => setCurrentHospitalityIndex(slideIndex)}
-                    className={`h-3 w-3 rounded-full transition ${isActive ? "bg-white" : "bg-white/40 hover:bg-white/60"}`}
-                    aria-label={`Ver imagen ${slideIndex + 1} de hospedajes`}
-                    aria-pressed={isActive}
-                  />
-                );
-              })}
+        <motion.section
+          className="mx-auto max-w-6xl px-6 sm:px-10 lg:px-16"
+          {...fadeUp(0.05)}
+        >
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <span className="text-xs uppercase tracking-[0.4em] text-orange-500">
+                Experiencias de temporada
+              </span>
+              <h2 className="text-3xl font-semibold text-orange-600 sm:text-4xl">Programas que no te puedes perder</h2>
+              <p className="mt-3 max-w-2xl text-base text-blue-900">
+                Curamos actividades guiadas y eventos que cambian con la estación. Inspírate y
+                reserva con operadores autorizados.
+              </p>
             </div>
-          ) : null}
-
-          <div className="flex flex-col gap-4 text-sm text-white/80 sm:flex-row sm:items-center sm:justify-between">
-            <p>Consulta la oferta completa y reserva a través del portal oficial.</p>
-            <a
-              href="https://rebrand.ly/HotelesEnDelicias"
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-blue-900 shadow-lg transition hover:bg-orange-100 focus:outline-none focus-visible:ring focus-visible:ring-white/70"
-            >
-              Ver hospedajes en Delicias
-            </a>
-          </div>
-        </div>
-      </motion.section>
-
-      <motion.section
-        id="gastronomia"
-        className="relative overflow-hidden py-24 text-white"
-        {...fadeUp(0)}
-      >
-        <div className="absolute inset-0">
-          <Image
-            src="/deliciasnoche.jpg"
-            alt="Vista nocturna del centro de Delicias con iluminación cálida"
-            fill
-            sizes="100vw"
-            className="object-cover blur-[2px] brightness-[0.65] scale-110"
-          />
-          <div className="absolute inset-0 bg-gradient-to-br from-[#0b1d45]/90 via-[#132a75]/70 to-[#f97316]/55" />
-        </div>
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-36 bg-gradient-to-b from-[#0b1d45] via-[#0b1d45]/40 to-transparent" />
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-[#fff6ed] via-[#fff6ed]/40 to-transparent" />
-
-        <div className="relative z-10 mx-auto flex max-w-6xl flex-col gap-10 px-6 sm:px-10 lg:px-16">
-          <div className="max-w-3xl space-y-5">
-            <span className="inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-white/85">
-              Gastronomía
-            </span>
-            <h2 className="text-3xl font-semibold sm:text-4xl">¿Qué voy a comer hoy?</h2>
-            <p className="max-w-2xl text-lg text-white/85">
-              Saborea Delicias con rutas fotográficas que muestran desde la alta cocina
-              hasta los antojos exprés. Haz clic en cada categoría para ver el menú a tamaño
-              completo.
-            </p>
             <Link
               href="#planifica"
-              className="inline-flex items-center gap-2 rounded-full border border-white/40 px-5 py-2 text-sm font-semibold text-white transition hover:bg-white/10"
+              className="inline-flex items-center justify-center rounded-full border border-blue-200 px-5 py-2 text-sm font-semibold text-blue-700 transition hover:bg-blue-50"
             >
-              Ver ruta foodie →
+              Ver todas las experiencias →
+            </Link>
+          </div>
+          <div className="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            {seasonalExperiences.map((experience, index) => {
+              const Icon = experienceIcons[experience.icon];
+              return (
+                <motion.article
+                  key={experience.title}
+                  className="group flex h-full flex-col gap-4 rounded-3xl border border-blue-100 bg-white p-6 shadow-sm transition hover:border-blue-200 hover:shadow-md"
+                  {...fadeUp(0.1 + index * 0.05)}
+                >
+                  <div
+                    className={`flex h-12 w-12 items-center justify-center rounded-xl text-white ${experience.accent}`}
+                  >
+                    <Icon className="h-6 w-6" />
+                  </div>
+                  <h3 className="text-xl font-semibold text-orange-600">{experience.title}</h3>
+                  <p className="text-sm text-blue-900">{experience.description}</p>
+                  <button
+                    type="button"
+                    className="mt-auto inline-flex items-center gap-2 text-sm font-semibold text-blue-700 transition hover:text-blue-500"
+                  >
+                    Detalles y reservas →
+                  </button>
+                </motion.article>
+              );
+            })}
+          </div>
+        </motion.section>
+
+        <motion.section
+          id="hoteles"
+          className="mx-auto max-w-6xl px-6 sm:px-10 lg:px-16"
+          {...fadeUp(0.05)}
+        >
+          <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+            <div className="space-y-5">
+              <span className="text-xs uppercase tracking-[0.4em] text-orange-500">
+                Hospedaje aliado
+              </span>
+              <h2 className="text-3xl font-semibold text-orange-600 sm:text-4xl">
+                Descansa en hoteles certificados de Delicias
+              </h2>
+              <p className="text-base text-blue-900">
+                Elegimos opciones con altos estándares de servicio, cercanos a atracciones
+                clave y con facilidades para tu itinerario.
+              </p>
+              <ul className="list-inside list-disc space-y-2 text-sm text-blue-900">
+                <li>Fotografías verificadas y descripciones curadas por el equipo municipal.</li>
+                <li>Reserva directa con aliados locales y paquetes oficiales.</li>
+                <li>Actualizamos disponibilidad y promociones cada semana.</li>
+              </ul>
+              <a
+                href="https://rebrand.ly/HotelesEnDelicias"
+                target="_blank"
+                rel="noreferrer"
+                className={primaryButtonClasses}
+              >
+                Ver alojamientos disponibles
+              </a>
+            </div>
+            <div className="relative overflow-hidden rounded-3xl border border-blue-100 bg-white shadow-sm">
+              <AnimatePresence mode="wait">
+                {hospitalitySlides.length > 0 ? (
+                  <motion.figure
+                    key={activeHospitalitySlide?.image ?? `hospedaje-${activeHospitalityIndex}`}
+                    className="relative h-[360px] w-full overflow-hidden sm:h-[420px]"
+                    initial={{ opacity: 0.6, scale: 0.98 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0.2, scale: 1.02 }}
+                    transition={{ duration: 0.5, ease: "easeOut" }}
+                  >
+                    <Image
+                      src={activeHospitalitySlide?.image ?? ""}
+                      alt={activeHospitalitySlide?.alt ?? "Fotografía de hospedaje en Delicias"}
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 640px"
+                      className="object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-blue-950/75 via-blue-900/20 to-transparent" />
+                    <figcaption className="absolute inset-x-0 bottom-0 px-6 pb-6 text-sm text-white/85">
+                      {activeHospitalitySlide?.description}
+                    </figcaption>
+                  </motion.figure>
+                ) : (
+                  <div className="flex h-[360px] items-center justify-center text-sm text-blue-600 sm:h-[420px]">
+                    Estamos reuniendo fotografías de hospedajes.
+                  </div>
+                )}
+              </AnimatePresence>
+
+              {hospitalitySlides.length > 1 ? (
+                <>
+                  <button
+                    type="button"
+                    onClick={showPreviousHospitalitySlide}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full bg-white/90 p-2 text-blue-700 shadow transition hover:bg-white"
+                    aria-label="Ver imagen anterior de hospedajes"
+                  >
+                    <ChevronLeft className="h-5 w-5" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={showNextHospitalitySlide}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-white/90 p-2 text-blue-700 shadow transition hover:bg-white"
+                    aria-label="Ver imagen siguiente de hospedajes"
+                  >
+                    <ChevronRight className="h-5 w-5" />
+                  </button>
+                </>
+              ) : null}
+
+              {hospitalitySlides.length > 1 ? (
+                <div className="flex items-center justify-center gap-2 px-6 py-4">
+                  {hospitalitySlides.map((slide, slideIndex) => {
+                    const isActive = slideIndex === activeHospitalityIndex;
+                    return (
+                      <button
+                        key={slide.image}
+                        type="button"
+                        onClick={() => setCurrentHospitalityIndex(slideIndex)}
+                        className={`h-2.5 w-2.5 rounded-full transition ${
+                          isActive ? "bg-blue-700" : "bg-blue-200 hover:bg-blue-300"
+                        }`}
+                        aria-label={`Ver imagen ${slideIndex + 1} de hospedajes`}
+                        aria-pressed={isActive}
+                      />
+                    );
+                  })}
+                </div>
+              ) : null}
+            </div>
+          </div>
+        </motion.section>
+
+        <motion.section
+          id="gastronomia"
+          className="mx-auto max-w-6xl px-6 sm:px-10 lg:px-16"
+          {...fadeUp(0.05)}
+        >
+          <div className="rounded-3xl border border-blue-100 bg-white p-10 shadow-sm">
+            <div className="grid gap-10 lg:grid-cols-[1.15fr_0.85fr]">
+              <div className="space-y-8">
+                <div className="space-y-4">
+                  <span className="text-xs uppercase tracking-[0.4em] text-orange-500">
+                    Gastronomía
+                  </span>
+                  <h2 className="text-3xl font-semibold text-orange-600 sm:text-4xl">
+                    ¿Qué voy a comer hoy en Delicias?
+                  </h2>
+                  <p className="max-w-2xl text-base text-blue-900">
+                    Desde cocinas de autor hasta antojitos rápidos. Explora nuestras categorías y
+                    abre la selección para ver el menú en alta resolución.
+                  </p>
+                </div>
+
+                <div className="grid gap-4 sm:grid-cols-2">
+                  {foodCategories.map((category, index) => (
+                    <button
+                      key={category.title}
+                      type="button"
+                      onClick={() => setActiveFoodIndex(index)}
+                      className="group relative flex h-44 flex-col justify-end overflow-hidden rounded-3xl border border-blue-200 bg-blue-900/85 p-5 text-left text-white transition hover:-translate-y-1 hover:shadow-lg focus:outline-none focus-visible:ring focus-visible:ring-blue-400 sm:h-48"
+                    >
+                      <Image
+                        src={category.image}
+                        alt={category.title}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                        className={`object-cover opacity-70 transition duration-500 group-hover:opacity-90 ${
+                          category.title === "Un snack" ? "object-[5%_50%]" : "object-center"
+                        }`}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-blue-950/80 via-blue-900/20 to-transparent" />
+                      <div className="relative z-10 space-y-1">
+                        <h3 className="text-lg font-semibold">{category.title}</h3>
+                        <p className="text-sm text-white/70">{category.subtitle}</p>
+                      </div>
+                      <span className="relative z-10 mt-4 inline-flex text-xs font-semibold uppercase tracking-[0.35em] text-white/60">
+                        Ver menú →
+                      </span>
+                    </button>
+                  ))}
+                </div>
+
+                <div className="flex flex-wrap items-center gap-6 rounded-2xl border border-orange-200 bg-orange-50/60 p-5 text-xs font-semibold uppercase tracking-[0.35em] text-orange-500">
+                  <span>Distintivo Punto Limpio</span>
+                  <span>Programa Moderniza</span>
+                  <span>Productores locales</span>
+                </div>
+              </div>
+
+              <div className="relative overflow-hidden rounded-3xl border border-blue-200 bg-blue-900/85 text-white shadow-md">
+                <Image
+                  src={featuredFoodEntry.image}
+                  alt={featuredFoodEntry.title}
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 480px"
+                  className="object-contain p-6"
+                />
+                <div className="absolute inset-x-0 bottom-0 space-y-2 px-8 pb-8">
+                  <span className="inline-flex w-fit items-center rounded-full bg-white/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.4em] text-white/75">
+                    Selección destacada
+                  </span>
+                  <h3 className="text-2xl font-semibold">{featuredFoodEntry.title}</h3>
+                  <p className="text-sm text-white/70">{featuredFoodEntry.subtitle}</p>
+                  <p className="text-xs text-white/60">
+                    Consulta disponibilidad con nuestros aliados gastronómicos oficiales.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </motion.section>
+
+        <motion.section
+          id="agenda"
+          className="mx-auto max-w-6xl px-6 sm:px-10 lg:px-16"
+          {...fadeUp(0.05)}
+        >
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <span className="text-xs uppercase tracking-[0.4em] text-orange-500">
+                Agenda oficial
+              </span>
+              <h2 className="text-3xl font-semibold text-orange-600 sm:text-4xl">Eventos y festivales</h2>
+              <p className="mt-3 max-w-2xl text-base text-blue-900">
+                Vive conciertos, rutas guiadas, muestras gastronómicas y mucho más. Actualizamos
+                cada semana con programación oficial.
+              </p>
+            </div>
+            <Link
+              href="#contacto"
+              className="inline-flex items-center justify-center rounded-full border border-blue-200 px-5 py-2 text-sm font-semibold text-blue-700 transition hover:bg-blue-50"
+            >
+              Recibir boletín →
             </Link>
           </div>
 
-          <div className="grid gap-6 sm:grid-cols-2">
-            {foodCategories.map((category, index) => (
-              <motion.button
-                key={category.title}
-                type="button"
-                onClick={() => setActiveFoodIndex(index)}
-                className="group relative h-60 overflow-hidden rounded-[2.5rem] text-left shadow-[0_25px_70px_-45px_rgba(0,0,0,0.55)] transition focus:outline-none focus-visible:ring focus-visible:ring-white/60 sm:h-56"
+          <div className="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            {events.map((event, index) => (
+              <motion.article
+                key={event.title}
+                className="flex h-full flex-col overflow-hidden rounded-3xl border border-blue-100 bg-white shadow-sm transition hover:border-blue-200 hover:shadow-md"
                 {...fadeUp(0.1 + index * 0.05)}
-                whileHover={{ scale: 1.02 }}
               >
-                <Image
-                  src={category.image}
-                  alt={category.title}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  className={`object-cover transition duration-700 group-hover:scale-105 ${
-                    category.title === "Un snack" ? "object-[0%_50%]" : "object-center"
-                  }`}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent" />
-                <div className="absolute inset-0 bg-gradient-to-br from-orange-500/40 via-transparent to-blue-500/35 opacity-0 transition group-hover:opacity-90" />
-                <div className="absolute inset-x-0 bottom-0 space-y-1 px-6 pb-6">
-                  <h3 className="text-xl font-semibold text-white">{category.title}</h3>
-                  <p className="text-sm text-white/80">{category.subtitle}</p>
+                <div className="relative h-48 overflow-hidden">
+                  <Image
+                    src={event.image}
+                    alt={event.title}
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 480px"
+                    className="object-cover"
+                  />
+                    <div className="absolute inset-0 bg-gradient-to-t from-blue-950/80 via-blue-900/20 to-transparent" />
+                  <span className="absolute left-4 top-4 inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-[0.4em] text-white">
+                    {event.category}
+                  </span>
                 </div>
-              </motion.button>
+                <div className="flex flex-1 flex-col gap-4 p-6">
+                  <div className="space-y-2">
+                    <h3 className="text-xl font-semibold text-orange-600">{event.title}</h3>
+                    <p className="text-sm text-blue-900">{event.description}</p>
+                  </div>
+                  <div className="mt-auto space-y-2 text-sm text-blue-900">
+                    <p className="inline-flex items-center gap-2 text-blue-800">
+                      <CalendarDays className="h-4 w-4 text-orange-500" />
+                      {event.date}
+                    </p>
+                    <p className="inline-flex items-center gap-2 text-blue-800">
+                      <MapPin className="h-4 w-4 text-orange-500" />
+                      {event.location}
+                    </p>
+                  </div>
+                </div>
+              </motion.article>
             ))}
           </div>
+        </motion.section>
 
-          <div className="flex flex-wrap items-center gap-6 pt-4">
-            <p className="text-sm uppercase tracking-[0.35em] text-white/80">
-              Distintivos de calidad
-            </p>
-            <div className="flex items-center gap-6">
-              <Image
-                src="/limpio.png"
-                alt="Distintivo Punto Limpio"
-                width={120}
-                height={60}
-                className="h-12 w-auto object-contain drop-shadow-xl"
-              />
-              <Image
-                src="/Moderniza.png"
-                alt="Distintivo Moderniza"
-                width={120}
-                height={60}
-                className="h-12 w-auto object-contain drop-shadow-xl"
-              />
-            </div>
-          </div>
-        </div>
-      </motion.section>
-
-      <main className="relative z-20 mx-auto w-full max-w-6xl space-y-24 px-6 py-24 sm:px-8 lg:px-0">
         <motion.section
           id="vida-nocturna"
-          className="relative overflow-hidden rounded-[3rem] border border-white/20 bg-gradient-to-br from-[#0b1120] via-[#1d1442] to-[#5b21b6] p-10 text-white shadow-[0_60px_120px_-60px_rgba(124,58,237,0.6)]"
-          {...fadeUp(0)}
+          className="mx-auto max-w-6xl px-6 sm:px-10 lg:px-16"
+          {...fadeUp(0.05)}
         >
-          <div className="pointer-events-none absolute -left-20 top-[-6rem] h-64 w-64 rounded-full bg-orange-500/25 blur-3xl" />
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_40%_-10%,rgba(255,255,255,0.35),rgba(255,255,255,0)_55%)] opacity-60" />
-          <div className="relative z-10 flex flex-col gap-10">
-            <div className="flex flex-col gap-3">
-              <span className="text-xs uppercase tracking-[0.4em] text-blue-200/80">
-                Vida nocturna
-              </span>
-              <h2 className="text-3xl font-semibold sm:text-4xl">
-                Noches que vibran en Delicias
-              </h2>
-              <p className="max-w-2xl text-lg text-white/80">
-                Terrazas, foros íntimos y experiencias sobre el agua. Planifica tu noche según
-                el mood.
+          <div className="rounded-3xl border border-blue-100 bg-white p-10 shadow-sm">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <span className="text-xs uppercase tracking-[0.4em] text-orange-500">Vida nocturna</span>
+                <h2 className="text-3xl font-semibold text-orange-600 sm:text-4xl">
+                  Noches que vibran en Delicias
+                </h2>
+              </div>
+              <p className="max-w-xl text-sm text-blue-900">
+                Terrazas, cócteles de autor y foros íntimos con música en vivo. Elige tu vibe y arma
+                tu ruta nocturna.
               </p>
             </div>
-            <div className="grid gap-6 lg:grid-cols-3">
+            <div className="mt-8 grid gap-6 lg:grid-cols-3">
               {nightlifeSpots.map((spot, index) => (
                 <motion.article
                   key={spot.name}
-                  className="group flex h-full flex-col overflow-hidden rounded-[2rem] border border-white/15 bg-white/5 shadow-[0_30px_80px_-45px_rgba(255,255,255,0.45)] backdrop-blur transition hover:-translate-y-2 hover:shadow-[0_35px_90px_-40px_rgba(255,255,255,0.55)]"
-                  {...fadeUp(0.1 + index * 0.1)}
+                  className="group flex h-full flex-col overflow-hidden rounded-3xl border border-blue-200 bg-blue-900 text-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
+                  {...fadeUp(0.1 + index * 0.05)}
                 >
-                  <div className="relative h-56 overflow-hidden">
+                  <div className="relative h-48 overflow-hidden">
                     <Image
                       src={spot.image}
                       alt={spot.name}
                       fill
-                      sizes="(max-width: 1024px) 100vw, 33vw"
-                      className="object-cover opacity-90 transition duration-700 group-hover:scale-105"
+                      sizes="(max-width: 1024px) 100vw, 480px"
+                      className="object-cover opacity-90 transition duration-500 group-hover:scale-105"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0b1120]/95 via-[#0b1120]/40 to-transparent" />
-                    <div className="absolute left-5 top-5 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-slate-900">
+                    <div className="absolute inset-0 bg-gradient-to-t from-blue-950/90 via-blue-900/40 to-transparent" />
+                    <span className="absolute left-4 top-4 inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-[0.35em] text-white/80">
                       {spot.vibe}
-                    </div>
+                    </span>
                   </div>
                   <div className="flex flex-1 flex-col gap-4 p-6">
-                    <h3 className="text-xl font-semibold text-white">{spot.name}</h3>
+                    <h3 className="text-xl font-semibold">{spot.name}</h3>
                     <p className="text-sm text-white/80">{spot.description}</p>
                     <ul className="space-y-2 text-sm text-white/70">
                       {spot.highlights.map((highlight) => (
@@ -666,128 +690,9 @@ export default function HomePage({
                         </li>
                       ))}
                     </ul>
-                    <div className="flex items-center justify-between text-xs uppercase tracking-[0.3em] text-orange-200/80">
-                      <span>{spot.schedule}</span>
+                    <div className="mt-auto inline-flex items-center gap-2 text-xs uppercase tracking-[0.35em] text-white/60">
                       <MoonStar className="h-4 w-4" />
-                    </div>
-                  </div>
-                </motion.article>
-              ))}
-            </div>
-          </div>
-        </motion.section>
-
-        <motion.section
-          id="experiencias"
-          className="relative overflow-hidden rounded-[3rem] border border-white/15 bg-white/75 p-10 shadow-[0_45px_100px_-60px_rgba(29,78,216,0.3)] backdrop-blur"
-          {...fadeUp(0)}
-        >
-          <div className="pointer-events-none absolute -left-20 top-[-8rem] h-72 w-72 rounded-full bg-blue-200/35 blur-3xl" />
-          <div className="relative z-10 flex flex-col gap-8">
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-              <div>
-                <span className="text-xs uppercase tracking-[0.4em] text-blue-700">
-                  Temporada
-                </span>
-                <h2 className="text-3xl font-semibold sm:text-4xl">
-                  Experiencias de temporada
-                </h2>
-                <p className="mt-2 max-w-xl text-lg text-slate-600">
-                  Complementa tu plan con ideas listas para reservar y guiadas por anfitriones
-                  certificados.
-                </p>
-              </div>
-              <Link
-                href="#planifica"
-                className="inline-flex items-center gap-2 rounded-full border border-blue-500/40 px-5 py-2 text-sm font-semibold text-blue-600 transition hover:bg-blue-500/10"
-              >
-                Armar itinerario →
-              </Link>
-            </div>
-            <div className="grid gap-6 md:grid-cols-2">
-              {seasonalExperiences.map((experience, index) => {
-                const Icon = experienceIcons[experience.icon];
-                return (
-                  <motion.article
-                    key={experience.title}
-                  className="group relative overflow-hidden rounded-[2.25rem] border border-white/60 bg-white/85 shadow-[0_30px_80px_-50px_rgba(29,78,216,0.25)] transition hover:-translate-y-2 hover:shadow-[0_35px_90px_-45px_rgba(29,78,216,0.35)]"
-                    {...fadeUp(0.1 + index * 0.1)}
-                  >
-                    <div
-                      className={`absolute inset-0 bg-gradient-to-br ${experience.accent} opacity-80 transition group-hover:opacity-95`}
-                    />
-                    <div className="relative z-10 flex h-full flex-col gap-6 p-8">
-                      <div className="flex items-center gap-3">
-                        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white/90 text-slate-800 shadow">
-                          <Icon className="h-6 w-6" />
-                        </div>
-                        <h3 className="text-2xl font-semibold text-slate-900">
-                          {experience.title}
-                        </h3>
-                      </div>
-                      <p className="text-base text-slate-700">{experience.description}</p>
-                      <Link
-                        href="#planifica"
-                        className="mt-auto inline-flex items-center gap-2 text-sm font-semibold text-slate-900 transition hover:opacity-80"
-                      >
-                        Saber más →
-                      </Link>
-                    </div>
-                  </motion.article>
-                );
-              })}
-            </div>
-          </div>
-        </motion.section>
-
-        <motion.section
-          id="eventos"
-          className="relative overflow-hidden rounded-[3rem] border border-white/20 bg-white/75 p-10 shadow-[0_45px_100px_-60px_rgba(22,101,52,0.35)] backdrop-blur"
-          {...fadeUp(0)}
-        >
-          <div className="pointer-events-none absolute -right-24 top-[-10rem] h-80 w-80 rounded-full bg-blue-500/20 blur-3xl" />
-          <div className="relative z-10 flex flex-col gap-8">
-            <div className="flex flex-col gap-3">
-              <span className="text-xs uppercase tracking-[0.4em] text-blue-700">
-                Agenda
-              </span>
-              <h2 className="text-3xl font-semibold sm:text-4xl">
-                Próximos eventos imprescindibles
-              </h2>
-              <p className="max-w-2xl text-lg text-slate-600">
-                Compra boletos con anticipación y asegura lugar en las actividades más
-                esperadas del mes.
-              </p>
-            </div>
-            <div className="grid gap-6 md:grid-cols-3">
-              {events.map((event, index) => (
-                <motion.article
-                  key={event.title}
-                  className="group flex flex-col overflow-hidden rounded-[2.25rem] border border-blue-100/70 bg-white/85 shadow-[0_30px_80px_-50px_rgba(29,78,216,0.25)] transition hover:-translate-y-2 hover:shadow-[0_35px_90px_-45px_rgba(29,78,216,0.35)]"
-                  {...fadeUp(0.1 + index * 0.1)}
-                >
-                  <div className="relative h-60 overflow-hidden">
-                    <Image
-                      src={event.image}
-                      alt={event.title}
-                      fill
-                      sizes="(max-width: 1024px) 100vw, 33vw"
-                      className="object-cover transition duration-700 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-slate-900/20 to-transparent" />
-                    <div className="absolute left-5 top-5 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-slate-900">
-                      {event.category}
-                    </div>
-                  </div>
-                  <div className="flex flex-1 flex-col gap-4 p-6">
-                    <time className="text-sm font-semibold text-blue-600">
-                      {event.date}
-                    </time>
-                    <h3 className="text-2xl font-semibold text-slate-900">{event.title}</h3>
-                    <p className="flex-1 text-sm text-slate-600">{event.description}</p>
-                    <div className="flex items-center gap-2 text-sm font-medium text-slate-700">
-                      <MapPin className="h-4 w-4 text-blue-500" />
-                      {event.location}
+                      {spot.schedule}
                     </div>
                   </div>
                 </motion.article>
@@ -798,208 +703,221 @@ export default function HomePage({
 
         <motion.section
           id="barrios"
-          className="relative overflow-hidden rounded-[3rem] border border-white/20 bg-white/75 p-10 shadow-[0_40px_90px_-55px_rgba(30,64,175,0.35)] backdrop-blur"
-          {...fadeUp(0)}
+          className="mx-auto max-w-6xl px-6 sm:px-10 lg:px-16"
+          {...fadeUp(0.05)}
         >
-          <div className="pointer-events-none absolute -left-12 bottom-[-6rem] h-72 w-72 rounded-full bg-indigo-200/30 blur-3xl" />
-          <div className="relative z-10 flex flex-col gap-8">
-            <div className="flex flex-col gap-3">
-              <span className="text-xs uppercase tracking-[0.4em] text-blue-700">
-                Barrios
-              </span>
-              <h2 className="text-3xl font-semibold sm:text-4xl">
-                Zonas que definen el carácter de Delicias
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <span className="text-xs uppercase tracking-[0.4em] text-orange-500">Rutas y barrios</span>
+              <h2 className="text-3xl font-semibold text-orange-600 sm:text-4xl">
+                Explora las zonas que definen Delicias
               </h2>
-              <p className="max-w-2xl text-lg text-slate-600">
-                Inspírate con estas áreas y conecta con anfitriones locales que te ayudarán a
-                sacarle jugo a cada visita.
-              </p>
             </div>
-            <div className="grid gap-6 lg:grid-cols-3">
-              {neighborhoods.map((neighborhood, index) => (
-                <motion.article
-                  key={neighborhood.name}
-                  className="group relative overflow-hidden rounded-[2.25rem] border border-white/25 bg-slate-900 text-white shadow-[0_30px_80px_-50px_rgba(30,64,175,0.5)] transition hover:-translate-y-2 hover:shadow-[0_35px_90px_-45px_rgba(30,64,175,0.55)]"
-                  {...fadeUp(0.1 + index * 0.1)}
-                >
-                  <Image
-                    src={neighborhood.image}
-                    alt={neighborhood.name}
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 33vw"
-                    className="object-cover opacity-80 transition duration-700 group-hover:scale-105 group-hover:opacity-95"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0b1228]/95 via-[#0b1228]/45 to-transparent" />
-                  <div className="relative z-10 flex h-full flex-col justify-end gap-3 p-8">
-                    <span className="text-xs uppercase tracking-[0.4em] text-orange-200/80">
-                      Explora
-                    </span>
-                    <h3 className="text-2xl font-semibold">{neighborhood.name}</h3>
-                    <p className="text-sm text-white/80">{neighborhood.description}</p>
-                    <Link
-                      href="#planifica"
-                      className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-orange-200 transition hover:text-orange-100"
-                    >
-                      Ver mapa y experiencias →
-                    </Link>
-                  </div>
-                </motion.article>
-              ))}
-            </div>
+            <Link
+              href="#planifica"
+              className="inline-flex items-center justify-center rounded-full border border-blue-200 px-5 py-2 text-sm font-semibold text-blue-700 transition hover:bg-blue-50"
+            >
+              Consultar mapa →
+            </Link>
           </div>
+          <div className="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            {neighborhoods.map((neighborhood, index) => (
+              <motion.article
+                key={neighborhood.name}
+                className="relative overflow-hidden rounded-3xl border border-blue-200 bg-blue-900 text-white shadow-sm transition hover:shadow-lg"
+                {...fadeUp(0.1 + index * 0.05)}
+              >
+                <Image
+                  src={neighborhood.image}
+                  alt={neighborhood.name}
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 480px"
+                  className="object-cover opacity-80"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-blue-950/90 via-blue-900/30 to-transparent" />
+                <div className="relative z-10 flex h-full flex-col justify-end gap-3 p-6">
+                  <span className="text-xs uppercase tracking-[0.35em] text-white/70">Explora</span>
+                  <h3 className="text-2xl font-semibold">{neighborhood.name}</h3>
+                  <p className="text-sm text-white/75">{neighborhood.description}</p>
+                  <Link
+                    href="#planifica"
+                    className="inline-flex items-center gap-2 text-sm font-semibold text-white transition hover:text-white/80"
+                  >
+                    Ver recomendaciones →
+                  </Link>
+                </div>
+              </motion.article>
+            ))}
+          </div>
+          {heroAttractions.length > 0 ? (
+            <div className="mt-12 space-y-4">
+              <h3 className="text-xl font-semibold text-orange-600 sm:text-2xl">
+                Espacios culturales y recreativos
+              </h3>
+              <p className="max-w-3xl text-sm text-blue-900">
+                Museos, centros creativos y recintos escénicos para complementar tu ruta por los barrios.
+              </p>
+              <div className="grid gap-6 md:grid-cols-2">
+                {heroAttractions.map((attraction, index) => (
+                  <motion.article
+                    key={attraction.title}
+                    className="group relative overflow-hidden rounded-3xl border border-blue-100 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md"
+                    {...fadeUp(0.1 + index * 0.05)}
+                  >
+                    <Image
+                      src={attraction.image}
+                      alt={attraction.title}
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 480px"
+                      className="absolute inset-0 -z-10 object-cover opacity-25 transition duration-500 group-hover:opacity-35"
+                    />
+                    <div className="relative z-10 flex h-full flex-col justify-between gap-3">
+                      <span className="inline-flex w-fit items-center rounded-full bg-orange-100 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.4em] text-orange-700">
+                        {attraction.tag}
+                      </span>
+                      <div className="space-y-2">
+                        <h4 className="text-lg font-semibold text-orange-600">{attraction.title}</h4>
+                        <p className="text-sm text-blue-900">{attraction.subtitle}</p>
+                      </div>
+                      <Link
+                        href="#planifica"
+                        className="inline-flex items-center gap-2 text-sm font-semibold text-blue-700 transition hover:text-blue-500"
+                      >
+                        Ver cómo visitarlo →
+                      </Link>
+                    </div>
+                  </motion.article>
+                ))}
+              </div>
+            </div>
+          ) : null}
         </motion.section>
 
         <motion.section
           id="planifica"
-          className="relative grid gap-8 rounded-[3rem] border border-white/20 bg-white/80 p-10 shadow-[0_40px_90px_-55px_rgba(29,78,216,0.3)] backdrop-blur md:grid-cols-[2fr_3fr]"
-          {...fadeUp(0)}
+          className="mx-auto max-w-6xl px-6 sm:px-10 lg:px-16"
+          {...fadeUp(0.05)}
         >
-          <div className="pointer-events-none absolute -right-16 top-[-6rem] h-64 w-64 rounded-full bg-blue-400/20 blur-3xl" />
-          <div className="relative z-10 space-y-6">
-            <h2 className="text-3xl font-semibold text-slate-900 sm:text-4xl">
-              Planifica con IDEA Turismo
-            </h2>
-            <p className="text-lg text-slate-600">
-              Centralizamos información oficial, datos en tiempo real y la voz de la
-              comunidad para ayudarte a tomar decisiones inteligentes.
-            </p>
-            <ul className="space-y-4 text-sm text-slate-600">
-              {travelTips.map((tip) => (
-                <li
-                  key={tip.title}
-                  className="flex items-start gap-3 rounded-2xl border border-blue-200/70 bg-white/80 p-4 shadow-[0_20px_40px_-30px_rgba(29,78,216,0.35)]"
-                >
-                  <Sun className="mt-1 h-5 w-5 flex-none text-orange-500" />
-                  <div>
-                    <p className="font-semibold text-slate-900">{tip.title}</p>
-                    <p className="text-sm text-slate-600">{tip.description}</p>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr]">
+            <div className="space-y-6 rounded-3xl border border-blue-100 bg-white p-10 shadow-sm">
+              <h2 className="text-3xl font-semibold text-orange-600 sm:text-4xl">
+                Planifica con Idea Turismo
+              </h2>
+              <p className="text-base text-blue-900">
+                Centralizamos datos oficiales y recomendaciones locales para construir un itinerario
+                inteligente. Personaliza tu visita con nuestro equipo.
+              </p>
+              <div className="grid gap-4 sm:grid-cols-2">
+                {planFeatures.map((feature) => {
+                  const Icon = planFeatureIcons[feature.icon];
+                  return (
+                    <div
+                      key={feature.title}
+                      className="flex h-full flex-col gap-3 rounded-2xl border border-blue-100 bg-blue-50 p-5"
+                    >
+                      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-700 text-white shadow-sm">
+                        <Icon className="h-6 w-6" />
+                      </div>
+                      <h3 className="text-lg font-semibold text-orange-600">{feature.title}</h3>
+                      <p className="text-sm text-blue-900">{feature.description}</p>
+                      <Link
+                        href="#contacto"
+                        className="mt-auto inline-flex items-center gap-2 text-sm font-semibold text-blue-700 transition hover:text-blue-500"
+                      >
+                        Hablar con un asesor →
+                      </Link>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
 
-          <div className="relative z-10 grid gap-4 sm:grid-cols-2">
-            {planFeatures.map((feature, index) => {
-              const Icon = planFeatureIcons[feature.icon];
-              return (
-                <motion.article
-                  key={feature.title}
-                  className="flex h-full flex-col gap-4 rounded-[2rem] border border-white/60 bg-white/85 p-6 shadow-[0_30px_70px_-45px_rgba(29,78,216,0.28)] transition hover:-translate-y-1 hover:shadow-[0_30px_80px_-40px_rgba(29,78,216,0.33)]"
-                  {...fadeUp(0.1 + index * 0.1)}
-                >
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 text-blue-600 shadow-inner">
-                    <Icon className="h-6 w-6" />
-                  </div>
-                  <h3 className="text-xl font-semibold text-slate-900">{feature.title}</h3>
-                  <p className="text-sm text-slate-600">{feature.description}</p>
-                  <Link
-                    href="#contacto"
-                    className="mt-auto inline-flex items-center gap-2 text-sm font-semibold text-blue-600 transition hover:text-blue-500"
-                  >
-                    Habla con un asesor →
-                  </Link>
-                </motion.article>
-              );
-            })}
+            <div className="space-y-4 rounded-3xl border border-blue-100 bg-white p-10 shadow-sm">
+              <h3 className="text-2xl font-semibold text-orange-600">Tips del equipo local</h3>
+              <p className="text-sm text-blue-900">
+                Lo que necesitas saber antes de llegar. Información logística, clima y cultura.
+              </p>
+              <ul className="space-y-4 text-sm text-blue-900">
+                {travelTips.map((tip) => (
+                  <li key={tip.title} className="flex gap-3 rounded-2xl border border-orange-200 bg-orange-50 p-4">
+                    <Sun className="mt-1 h-5 w-5 flex-none text-orange-500" />
+                    <div>
+                      <p className="font-semibold text-orange-600">{tip.title}</p>
+                      <p>{tip.description}</p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </motion.section>
 
         <motion.section
-          className="relative grid gap-8 rounded-[3rem] border border-white/20 bg-white/80 p-10 shadow-[0_40px_90px_-55px_rgba(55,48,163,0.3)] backdrop-blur md:grid-cols-[3fr_2fr]"
-          {...fadeUp(0)}
+          id="contacto"
+          className="mx-auto max-w-6xl px-6 sm:px-10 lg:px-16"
+          {...fadeUp(0.05)}
         >
-          <div className="relative overflow-hidden rounded-[2.5rem] bg-slate-900 text-white shadow-[0_30px_80px_-50px_rgba(55,48,163,0.45)]">
-            <Image
-              src="https://images.unsplash.com/photo-1589656966895-2f33e7653819?auto=format&fit=crop&w=1600&q=80"
-              alt="Mapa nocturno de la ciudad"
-              fill
-              sizes="(max-width: 768px) 100vw, 60vw"
-              className="object-cover opacity-60"
-            />
-            <div className="absolute inset-0 bg-gradient-to-br from-slate-900/80 via-slate-900/60 to-slate-900/70" />
-            <div className="relative z-10 flex h-full flex-col justify-between gap-6 p-8">
-              <div className="max-w-xl space-y-4">
-                <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1 text-xs uppercase tracking-[0.3em] text-orange-200">
-                  Próximamente
-                </span>
-                <h2 className="text-3xl font-semibold">Mapa interactivo de experiencias</h2>
-                <p className="text-sm text-white/80">
-                  Visualiza rutas en vivo, disponibilidad de actividades y tiempos de
-                  traslado. Integración con Google Maps y filtros personalizados para
-                  viajeros.
-                </p>
-              </div>
-              <div className="flex flex-wrap gap-3 text-xs font-medium text-white/80">
-                <span className="rounded-full bg-white/10 px-4 py-2">
-                  Geolocalización en vivo
-                </span>
-                <span className="rounded-full bg-white/10 px-4 py-2">
-                  Listas colaborativas
-                </span>
-                <span className="rounded-full bg-white/10 px-4 py-2">
-                  Widgets para hoteles
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <div
-            id="contacto"
-            className="flex h-full flex-col justify-between gap-6 rounded-[2.5rem] border border-white/60 bg-white/85 p-8 shadow-[0_30px_70px_-45px_rgba(29,78,216,0.28)]"
-          >
+          <div className="grid gap-10 rounded-3xl border border-blue-100 bg-white p-10 shadow-sm md:grid-cols-[1.1fr_0.9fr]">
             <div className="space-y-4">
-              <h2 className="text-2xl font-semibold text-slate-900">
-                ¿Quieres recibir novedades de IDEA Turismo?
+              <h2 className="text-3xl font-semibold text-orange-600 sm:text-4xl">
+                Mantente al día
               </h2>
-              <p className="text-sm text-slate-600">
-                Suscríbete a nuestro boletín mensual con noticias, convocatorias y
-                herramientas para potenciar tu viaje o proyecto turístico.
+              <p className="text-base text-blue-900">
+                Recibe la agenda oficial, lanzamientos y promociones especiales directamente en tu
+                correo. Sin spam, solo novedades de Delicias.
               </p>
+              <form className="space-y-4">
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div>
+                    <label className="block text-sm font-medium text-orange-500" htmlFor="newsletter-name">
+                      Nombre completo
+                    </label>
+                    <input
+                      id="newsletter-name"
+                      type="text"
+                      name="name"
+                      placeholder="Nombre y apellidos"
+                      className="mt-1 w-full rounded-2xl border border-blue-200 px-4 py-3 text-sm text-blue-900 shadow-sm focus:border-blue-600 focus:outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-orange-500" htmlFor="newsletter-email">
+                      Correo electrónico
+                    </label>
+                    <input
+                      id="newsletter-email"
+                      type="email"
+                      name="email"
+                      autoComplete="email"
+                      placeholder="tucorreo@ejemplo.com"
+                      className="mt-1 w-full rounded-2xl border border-blue-200 px-4 py-3 text-sm text-blue-900 shadow-sm focus:border-blue-600 focus:outline-none"
+                    />
+                  </div>
+                </div>
+                <button type="submit" className={primaryButtonClasses}>
+                  Suscribirme
+                </button>
+              </form>
             </div>
-            <form className="space-y-3" aria-label="Formulario de suscripción a novedades">
-              <div className="space-y-1">
-                <label
-                  htmlFor="newsletter-name"
-                  className="block text-sm font-medium text-slate-700"
-                >
-                  Nombre
-                </label>
-                <input
-                  id="newsletter-name"
-                  name="name"
-                  type="text"
-                  placeholder="Tu nombre"
-                  className="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm shadow-sm focus:border-blue-500 focus:outline-none"
-                />
+            <div className="space-y-6 rounded-2xl border border-orange-200 bg-orange-50 p-6 text-sm text-blue-900">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.4em] text-orange-500">
+                  Contacto directo
+                </p>
+                <p className="mt-2 text-base font-semibold text-orange-600">IDEA Turismo · Municipalidad de Delicias</p>
               </div>
-              <div className="space-y-1">
-                <label
-                  htmlFor="newsletter-email"
-                  className="block text-sm font-medium text-slate-700"
-                >
-                  Correo electrónico
-                </label>
-                <input
-                  id="newsletter-email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  placeholder="tucorreo@ejemplo.com"
-                  className="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm shadow-sm focus:border-blue-500 focus:outline-none"
-                />
+              <div className="space-y-2">
+                <p>Tel. (639) 100 03 14</p>
+                <p>Correo: turismo@delicias.gob.mx</p>
+                <p>Dirección: Av. Del Parque 120, Zona Centro</p>
               </div>
-              <button
-                type="submit"
-                className={primaryButtonClasses}
-              >
-                Mantenerme al día
-              </button>
-            </form>
-            <div className="space-y-2 text-sm text-slate-500">
-              <p className="font-semibold text-slate-700">Contacto directo</p>
-              <p>WhatsApp: +52 639 100 03 14</p>
-              <p>Email: turismo@delicias.gob.mx</p>
+              <div className="space-y-2">
+                <p className="text-xs font-semibold uppercase tracking-[0.4em] text-orange-500">
+                  Horario de atención
+                </p>
+                <p>Lunes a viernes · 9:00 a 17:00 hrs</p>
+                <p>Sábados · 10:00 a 14:00 hrs</p>
+              </div>
             </div>
           </div>
         </motion.section>
@@ -1008,7 +926,7 @@ export default function HomePage({
       <AnimatePresence>
         {activeFoodEntry ? (
           <motion.div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/80 backdrop-blur"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-blue-950/75 backdrop-blur"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -1016,7 +934,7 @@ export default function HomePage({
             onClick={() => setActiveFoodIndex(null)}
           >
             <motion.figure
-              className="relative mx-4 flex max-h-[88vh] w-full max-w-3xl flex-col overflow-hidden rounded-[2.75rem] bg-slate-950/90 p-6 shadow-[0_50px_140px_-70px_rgba(0,0,0,0.9)]"
+              className="relative mx-4 flex max-h-[88vh] w-full max-w-3xl flex-col overflow-hidden rounded-[2.5rem] bg-blue-900 p-6 shadow-[0_40px_120px_-60px_rgba(11,60,193,0.55)]"
               initial={{ opacity: 0, scale: 0.94 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.96 }}
@@ -1026,12 +944,12 @@ export default function HomePage({
               <button
                 type="button"
                 onClick={() => setActiveFoodIndex(null)}
-                className="absolute right-4 top-4 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/15 text-white transition hover:bg-white/25 focus:outline-none focus-visible:ring focus-visible:ring-blue-300"
+                className="absolute right-4 top-4 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20 focus:outline-none focus-visible:ring focus-visible:ring-white/40"
                 aria-label="Cerrar detalle gastronómico"
               >
                 <X className="h-5 w-5" />
               </button>
-              <div className="relative flex min-h-[60vh] w-full items-center justify-center overflow-hidden rounded-[1.75rem] bg-slate-900/70">
+              <div className="relative flex min-h-[60vh] w-full items-center justify-center overflow-hidden rounded-2xl bg-blue-950/60">
                 <Image
                   src={activeFoodEntry.image}
                   alt={activeFoodEntry.title}
@@ -1050,23 +968,21 @@ export default function HomePage({
         ) : null}
       </AnimatePresence>
 
-      <footer className="border-t border-slate-200 bg-white py-10">
-        <div className="mx-auto flex max-w-6xl flex-col gap-10 px-6 sm:flex-row sm:items-center sm:justify-between sm:px-10 lg:px-16">
-          <div className="space-y-2 text-sm text-slate-600">
-            <p className="text-xl font-semibold text-slate-900">IDEA Turismo Delicias</p>
-            <p>
-              Círculo del Reloj Público Ote. 1, Col. Centro, Delicias, Chihuahua
-            </p>
-            <p>Teléfono conmutador: (639) 470 86 00</p>
-          </div>
-          <div className="flex flex-col gap-3 text-sm text-slate-500 sm:text-right">
-            <p>
-              © {new Date().getFullYear()} Municipio de Delicias. Todos los derechos
-              reservados.
-            </p>
-            <p className="text-xs">
-              Plataforma en construcción: datos y fotografías referenciales.
-            </p>
+      <footer className="border-t border-orange-200 bg-white py-10">
+        <div className="mx-auto flex max-w-6xl flex-col gap-6 px-6 text-sm text-orange-500 sm:flex-row sm:items-center sm:justify-between sm:px-10 lg:px-16">
+          <p>
+            © {new Date().getFullYear()} Instituto de Desarrollo Económico y Agropecuario (IDEA) · Delicias.
+          </p>
+          <div className="flex flex-wrap gap-4 text-sm">
+            <a href="#contacto" className="transition hover:text-blue-700">
+              Contacto
+            </a>
+            <a href="#planifica" className="transition hover:text-blue-700">
+              Planifica tu viaje
+            </a>
+            <a href="#agenda" className="transition hover:text-blue-700">
+              Agenda
+            </a>
           </div>
         </div>
       </footer>
